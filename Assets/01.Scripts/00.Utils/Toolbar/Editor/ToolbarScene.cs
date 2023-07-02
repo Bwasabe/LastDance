@@ -11,7 +11,7 @@ using UnityEngine.SceneManagement;
 [InitializeOnLoad]
 public class ToolbarScene
 {
-    private const string SCENES_FILE_PATH = "/01.Scenes";
+    private const string SCENES_FILE_PATH = "/05.Scenes";
     static ToolbarScene()
     {
         ToolbarExtender.LeftToolbarGUI.Add(OnToolbarGUI);
