@@ -10,7 +10,7 @@ namespace ColorHierarchyNameSpace
     public class ColorHierarchyEditor
     {
         [MenuItem("Editor/ColorHierarchy/AddColorHierarchy %H")]
-        [MenuItem("GameObject/ColorHierarchy/AddColorHierarchy %H")]
+        [MenuItem("GameObject/ColorHierarchy/AddColorHierarchy")]
         private static void CreateColorHierarchy()
         {
             GameObject[] obj = Selection.gameObjects;
@@ -23,7 +23,7 @@ namespace ColorHierarchyNameSpace
         }
 
         [MenuItem("Editor/ColorHierarchy/RemoveColorHierarchy %#H")]
-        [MenuItem("GameObject/ColorHierarchy/RemoveColorHierarchy %#H")]
+        [MenuItem("GameObject/ColorHierarchy/RemoveColorHierarchy")]
         private static void RemoveColorHierarchy()
         {
             GameObject[] obj = Selection.gameObjects;

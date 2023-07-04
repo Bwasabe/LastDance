@@ -30,15 +30,15 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
             }
         }
     }
-    private void Start() {
+    protected virtual void Start() {
         _shuttingDown = false;
 
     }
-    private void OnDestroy()
+    protected virtual void OnDestroy()
     {
         _shuttingDown = true;
     }
-    private void OnApplicationQuit()
+    protected virtual void OnApplicationQuit()
     {
         _shuttingDown = true;
     }
