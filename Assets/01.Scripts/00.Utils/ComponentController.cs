@@ -9,10 +9,11 @@ public class ComponentController : MonoBehaviour
 
     [SerializeField] private List<Component> componentsList = new();
 
-    private readonly Dictionary<Type, Component> _componentsDict;
+    private readonly Dictionary<Type, Component> _componentsDict = new();
+    
+    
     private void Awake()
     {
-        Controllers.TryAdd(transform, this);
         foreach (Component component in componentsList) _componentsDict.Add(component.GetType(), component);
     }
 
@@ -28,31 +29,15 @@ public class ComponentController : MonoBehaviour
 
     public void Refresh()
     {
-        _componentsDict.Clear();
+        componentsList.Clear();
 
         Component[] components = GetComponentsInChildren<Component>();
 
         foreach (Component component in components)
-            _componentsDict.TryAdd(component.GetType(),component);
-    }
-}
-
-public static class ComponentControllerExtensions
-{
-    public static T GetComponentCache<T>(this Transform transform) where T : Component
-    {
-        Transform root = transform.root;
-
-        if(ComponentController.Controllers.TryGetValue(root, out ComponentController controller)) return controller.Get<T>();
-
-        controller = root.gameObject.AddComponent<ComponentController>();
-        ComponentController.Controllers.Add(transform, controller);
-
-        return controller.Get<T>();
-    }
-
-    public static T GetComponentCache<T>(this Component component) where T : Component
-    {
-        return component.transform.GetComponentCache<T>();
+        {
+            if(component is Transform or ComponentController) continue;
+            
+            componentsList.Add(component);
+        }
     }
 }
