@@ -56,9 +56,7 @@ public class PlayerJump : PlayerComponentBase
     private void FixedUpdate()
     {
         // 중력 적용
-        Debug.Log(_rb.velocity.y);
         _rb.AddForce(Physics.gravity.y * _gravityScale * TimeManager.Instance.PlayerTimeScale * Vector3.up, ForceMode.Force);
-        Debug.Log(_rb.velocity.y);
     }
 
     private void LateUpdate()
@@ -123,7 +121,6 @@ public class PlayerJump : PlayerComponentBase
                 Vector3 velocity = _rb.velocity;
                 velocity.y = Mathf.Sqrt(_jumpForce * -2.0f * Physics.gravity.y) * TimeManager.Instance.PlayerTimeScale;
                 _rb.velocity = velocity;
-                // _rb.AddForce();
             }
         }
 
