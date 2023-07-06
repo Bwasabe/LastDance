@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ColorHierarchyNameSpace;
 using UnityEngine;
 
 [ExecuteAlways]
@@ -7,14 +8,16 @@ public class ComponentController : MonoBehaviour
 {
     public static readonly Dictionary<Transform, ComponentController> Controllers = new();
 
-    [SerializeField] private List<Component> componentsList = new();
+    [SerializeField] private List<Component> _componentsList = new();
 
     private readonly Dictionary<Type, Component> _componentsDict = new();
-    
-    
+
+
     private void Awake()
     {
-        foreach (Component component in componentsList) _componentsDict.Add(component.GetType(), component);
+        Controllers.TryAdd(transform.root, this);
+
+        foreach (Component component in _componentsList) _componentsDict.Add(component.GetType(), component);
     }
 
     public T Get<T>() where T : Component
@@ -29,15 +32,20 @@ public class ComponentController : MonoBehaviour
 
     public void Refresh()
     {
-        componentsList.Clear();
+        _componentsList.Clear();
 
         Component[] components = GetComponentsInChildren<Component>();
 
+        Dictionary<Type, Component> componentDict = new();
+
         foreach (Component component in components)
         {
-            if(component is Transform or ComponentController) continue;
-            
-            componentsList.Add(component);
+            if(component is Transform or ComponentController or ColorHierarchy) continue;
+
+            if(componentDict.TryAdd(component.GetType(), component))
+            {
+                _componentsList.Add(component);
+            }
         }
     }
 }

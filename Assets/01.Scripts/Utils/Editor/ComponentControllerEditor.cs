@@ -88,7 +88,8 @@ public class ComponentControllerEditor : Editor
         
         foreach (ComponentController componentController in _controllers)
         {
-            componentController.Refresh();
+            if(componentController.gameObject.activeInHierarchy)
+                componentController.Refresh();
         }
     }
 }
