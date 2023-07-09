@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -88,8 +89,14 @@ public class ComponentControllerEditor : Editor
         
         foreach (ComponentController componentController in _controllers)
         {
-            if(componentController.gameObject.activeInHierarchy)
+            try
+            {
                 componentController.Refresh();
+            }
+            catch
+            {
+                // ignored
+            }
         }
     }
 }

@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerDash : PlayerComponentBase
 {
@@ -16,6 +19,9 @@ public class PlayerDash : PlayerComponentBase
 
     [SerializeField]
     private AnimationCurve _dashCurve;
+    
+    [SerializeField, ColorUsage(false, false)]
+    private Color _dashColor = Color.blue;
 
     private float _timer;
     private float _dashTimer;
@@ -25,6 +31,14 @@ public class PlayerDash : PlayerComponentBase
     private Vector3 _dashAmount;
 
     private Rigidbody _rb;
+    
+    [SerializeField]
+    private float VolumeDuration = 0.1f;
+
+    private Vignette _vignette;
+    private LiftGammaGain _liftGammaGain;
+    private LensDistortion _lensDistortion;
+    private ChromaticAberration _chromaticAberration;
 
     protected override void Start()
     {
@@ -33,8 +47,13 @@ public class PlayerDash : PlayerComponentBase
         _rb = transform.GetComponentCache<Rigidbody>();
 
         _dashDuration = 1 / _dashDuration;
-        
-        _playerStateController.AddState(Player_State.Dash);
+
+        GlobalVolume.Instance.GetProfile(out _vignette);
+        GlobalVolume.Instance.GetProfile(out _liftGammaGain);
+        GlobalVolume.Instance.GetProfile(out _lensDistortion);
+        GlobalVolume.Instance.GetProfile(out _chromaticAberration);
+
+        Debug.Log(_liftGammaGain.gamma.value);
     }
 
     private void Update()
@@ -66,7 +85,21 @@ public class PlayerDash : PlayerComponentBase
     {
         if(_currentDashCount <= 0) return;
         if(_playerStateController.HasState(Player_State.Dash))return;
+
+        _vignette.color.Override(_dashColor);
+
+        _vignette.DOIntensity(0.8f, VolumeDuration);
         
+        
+        _lensDistortion.DOIntensity(-0.5f, VolumeDuration);
+        
+        _chromaticAberration.DOIntensity(1f, VolumeDuration);
+
+        
+        _liftGammaGain.DOLift(new(1f, 1f, 1f, 0.2f), VolumeDuration);
+        
+        _liftGammaGain.DOGamma(new(0.83f, 0.91f, 1f, -0.73f), VolumeDuration);
+
         _dashTimer = 0f;
         _currentDashCount--;
         
@@ -88,13 +121,28 @@ public class PlayerDash : PlayerComponentBase
 
         if(_dashTimer >= 1)
         {
-            _playerStateController.RemoveState(Player_State.Invincible);
-            _playerStateController.RemoveState(Player_State.Dash);
-
-            _dashTimer = 0f;
+            DashEnd();
         }
         
         _rb.velocity = Vector3.Lerp(_dashAmount * _dashDuration, Vector3.zero, _dashCurve.Evaluate(_dashTimer));
+    }
+
+    private void DashEnd()
+    {
+        _playerStateController.RemoveState(Player_State.Invincible);
+        _playerStateController.RemoveState(Player_State.Dash);
+
+        _dashTimer = 0f;
+        
+        _vignette.DOIntensity(0f, VolumeDuration);
+        
+        _lensDistortion.DOIntensity(0f, VolumeDuration);
+        
+        _chromaticAberration.DOIntensity(0f, VolumeDuration);
+        
+        _liftGammaGain.DOLift(Vector3.one, VolumeDuration);
+        
+        _liftGammaGain.DOGamma(Vector3.one, VolumeDuration);
     }
 
     
