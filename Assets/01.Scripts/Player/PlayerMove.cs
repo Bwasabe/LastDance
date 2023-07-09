@@ -28,8 +28,9 @@ public class PlayerMove : PlayerComponentBase
 
     private void Update()
     {
-         Vector3 moveInput = GetInput();
+        if(_playerStateController.HasState(Player_State.Dash)) return;
 
+         Vector3 moveInput = GetInput();
          SetState(moveInput);
          
         Move(moveInput);
@@ -85,7 +86,7 @@ public class PlayerMove : PlayerComponentBase
         _moveAmount = Vector3.Lerp(_moveAmount, dir * _speed, Time.deltaTime * _lerpSmooth);
         _moveAmount.y = _rb.velocity.y;
         
-        _rb.velocity = _moveAmount * TimeManager.Instance.PlayerTimeScale;
+        _rb.velocity = _moveAmount * TimeManager.PlayerTimeScale;
     }
 
 

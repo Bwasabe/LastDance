@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class TimeManager : MonoSingleton<TimeManager>
 {
-    public float PlayerTimeScale{ get; set; } = 1f;
+    public static float PlayerTimeScale{ get; set; } = 1f;
 }

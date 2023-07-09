@@ -10,7 +10,8 @@ public enum Player_State
     Move = 1 << 1,
     Jump = 1 << 2,
     Attack = 1 << 3,
-    
+    Dash = 1 << 4,
+    Invincible = 1 << 5,
 }
 
 public class PlayerStateController : MonoBehaviour
