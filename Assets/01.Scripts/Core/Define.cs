@@ -1,4 +1,5 @@
 using System;
+using Cinemachine;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -23,6 +24,7 @@ public class Bound
 public static class Define
 {
     
+    private static Camera _mainCam;
     public static Camera MainCam
     {
         get
@@ -33,12 +35,8 @@ public static class Define
             }
             return _mainCam;
         }
-
     }
-
-    private static Camera _mainCam;
-
-
+    
     public static Vector2 MousePos => MainCam.ScreenToWorldPoint(Input.mousePosition);
 
     public static T GetRandomEnum<T>(int startPos = 0,int? length = null ) where T : System.Enum

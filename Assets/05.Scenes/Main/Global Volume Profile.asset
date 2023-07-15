@@ -87,7 +87,7 @@ MonoBehaviour:
   active: 1
   color:
     m_OverrideState: 1
-    m_Value: {r: 0.4666667, g: 0.91879845, b: 1, a: 1}
+    m_Value: {r: 0.4666667, g: 0.50705546, b: 1, a: 1}
   center:
     m_OverrideState: 1
     m_Value: {x: 0.5, y: 0.5}
@@ -131,12 +131,12 @@ MonoBehaviour:
   components:
   - {fileID: -7904626148511058295}
   - {fileID: -1832400453459205891}
-  - {fileID: 3654538540367656064}
   - {fileID: 4961675310288493716}
   - {fileID: -3478642373729746922}
   - {fileID: -1391825924354636038}
   - {fileID: 8807083852876880942}
---- !u!114 &3654538540367656064
+  - {fileID: 1629222213095157157}
+--- !u!114 &1629222213095157157
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,19 +145,43 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5485954d14dfb9a4c8ead8edb0ded5b1, type: 3}
-  m_Name: LiftGammaGain
+  m_Script: {fileID: 11500000, guid: c01700fd266d6914ababb731e09af2eb, type: 3}
+  m_Name: DepthOfField
   m_EditorClassIdentifier: 
   active: 1
-  lift:
+  mode:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 1, z: 1, w: 0}
-  gamma:
+    m_Value: 2
+  gaussianStart:
     m_OverrideState: 1
-    m_Value: {x: 0.97757745, y: 0.9594522, z: 1, w: 0}
-  gain:
+    m_Value: 10
+  gaussianEnd:
+    m_OverrideState: 1
+    m_Value: 30
+  gaussianMaxRadius:
+    m_OverrideState: 1
+    m_Value: 1
+  highQualitySampling:
+    m_OverrideState: 1
+    m_Value: 0
+  focusDistance:
     m_OverrideState: 0
-    m_Value: {x: 1, y: 1, z: 1, w: 0}
+    m_Value: 1
+  aperture:
+    m_OverrideState: 0
+    m_Value: 5.6
+  focalLength:
+    m_OverrideState: 0
+    m_Value: 50
+  bladeCount:
+    m_OverrideState: 0
+    m_Value: 5
+  bladeCurvature:
+    m_OverrideState: 0
+    m_Value: 1
+  bladeRotation:
+    m_OverrideState: 0
+    m_Value: 0
 --- !u!114 &4961675310288493716
 MonoBehaviour:
   m_ObjectHideFlags: 3

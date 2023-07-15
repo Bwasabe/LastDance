@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -19,41 +20,45 @@ public class PlayerDash : PlayerComponentBase
 
     [SerializeField]
     private AnimationCurve _dashCurve;
+
+    [SerializeField]
+    private float _dashFOV = 80f;
     
     [SerializeField, ColorUsage(false, false)]
     private Color _dashColor = Color.blue;
 
     private float _timer;
     private float _dashTimer;
+
+    private float _camFOV;
         
     private int _currentDashCount = 0;
 
     private Vector3 _dashAmount;
 
     private Rigidbody _rb;
+
+    private Tweener _fovTweener;
     
-    [SerializeField]
-    private float VolumeDuration = 0.1f;
 
     private Vignette _vignette;
-    private LiftGammaGain _liftGammaGain;
-    private LensDistortion _lensDistortion;
     private ChromaticAberration _chromaticAberration;
 
+    private CinemachineVirtualCamera _vCam;
+
+    private Vector3 _prevVelocity;
     protected override void Start()
     {
         base.Start();
 
         _rb = transform.GetComponentCache<Rigidbody>();
 
-        _dashDuration = 1 / _dashDuration;
+        _vCam = PlayerCamera.Instance.VirtualCamera;
 
         GlobalVolume.Instance.GetProfile(out _vignette);
-        GlobalVolume.Instance.GetProfile(out _liftGammaGain);
-        GlobalVolume.Instance.GetProfile(out _lensDistortion);
         GlobalVolume.Instance.GetProfile(out _chromaticAberration);
 
-        Debug.Log(_liftGammaGain.gamma.value);
+        _camFOV = _vCam.m_Lens.FieldOfView;
     }
 
     private void Update()
@@ -86,20 +91,31 @@ public class PlayerDash : PlayerComponentBase
         if(_currentDashCount <= 0) return;
         if(_playerStateController.HasState(Player_State.Dash))return;
 
+        _prevVelocity = _rb.velocity;
+        _prevVelocity.y = 0f;
+        
+        
+        if(_fovTweener is not null)
+        {
+            _vCam.m_Lens.FieldOfView = _camFOV;
+            _fovTweener.Kill();
+        }
+
+        _fovTweener = DOTween.To(
+            () => _vCam.m_Lens.FieldOfView,
+            value => _vCam.m_Lens.FieldOfView = value,
+            _dashFOV, _dashDuration).SetLoops(2, LoopType.Yoyo);
+
+
         _vignette.color.Override(_dashColor);
+        
+        _vignette.intensity.Override(0.5f);
+        
+        _chromaticAberration.intensity.Override(1f);
+        
 
-        _vignette.DOIntensity(0.8f, VolumeDuration);
+        ChangeVolume();
         
-        
-        _lensDistortion.DOIntensity(-0.5f, VolumeDuration);
-        
-        _chromaticAberration.DOIntensity(1f, VolumeDuration);
-
-        
-        _liftGammaGain.DOLift(new(1f, 1f, 1f, 0.2f), VolumeDuration);
-        
-        _liftGammaGain.DOGamma(new(0.83f, 0.91f, 1f, -0.73f), VolumeDuration);
-
         _dashTimer = 0f;
         _currentDashCount--;
         
@@ -117,14 +133,14 @@ public class PlayerDash : PlayerComponentBase
     {
         if (!_playerStateController.HasState(Player_State.Dash)) return;
 
-        _dashTimer += Time.deltaTime * _dashDuration;
+        _dashTimer += Time.deltaTime / _dashDuration;
 
         if(_dashTimer >= 1)
         {
             DashEnd();
         }
         
-        _rb.velocity = Vector3.Lerp(_dashAmount * _dashDuration, Vector3.zero, _dashCurve.Evaluate(_dashTimer));
+        _rb.velocity = Vector3.Lerp(_dashAmount / _dashDuration, _prevVelocity, _dashCurve.Evaluate(_dashTimer));
     }
 
     private void DashEnd()
@@ -133,16 +149,13 @@ public class PlayerDash : PlayerComponentBase
         _playerStateController.RemoveState(Player_State.Dash);
 
         _dashTimer = 0f;
+    }
+
+    private void ChangeVolume()
+    {
+        _vignette.DOIntensity(0f, _dashDuration).SetEase(Ease.InBack);
         
-        _vignette.DOIntensity(0f, VolumeDuration);
-        
-        _lensDistortion.DOIntensity(0f, VolumeDuration);
-        
-        _chromaticAberration.DOIntensity(0f, VolumeDuration);
-        
-        _liftGammaGain.DOLift(Vector3.one, VolumeDuration);
-        
-        _liftGammaGain.DOGamma(Vector3.one, VolumeDuration);
+        _chromaticAberration.DOIntensity(0f, _dashDuration).SetEase(Ease.InBack);
     }
 
     

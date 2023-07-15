@@ -13,7 +13,7 @@ public class PlayerMove : PlayerComponentBase
     private Transform _camTransform;
 
     private Vector3 _moveAmount;
-    
+
     protected override void Start()
     {
         base.Start();
@@ -85,7 +85,7 @@ public class PlayerMove : PlayerComponentBase
 
         _moveAmount = Vector3.Lerp(_moveAmount, dir * _speed, Time.deltaTime * _lerpSmooth);
         _moveAmount.y = _rb.velocity.y;
-        
+
         _rb.velocity = _moveAmount * TimeManager.PlayerTimeScale;
     }
 
