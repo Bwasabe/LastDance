@@ -50,4 +50,12 @@ public static class VolumeTweenExtension
             value => vignette.intensity.Override(value),
             endValue, duration);
     }
+    
+    public static TweenerCore<float, float, FloatOptions> DOIntensity(this MotionBlur motionBlur, float endValue, float duration)
+    {
+        return DOTween.To(
+            () => motionBlur.intensity.value,
+            value => motionBlur.intensity.Override(value),
+            endValue, duration);
+    }
 }

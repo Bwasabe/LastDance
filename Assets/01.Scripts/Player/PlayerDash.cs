@@ -17,12 +17,16 @@ public class PlayerDash : PlayerComponentBase
     private float _dashDistance = 8f;
     [SerializeField]
     private float _dashDuration = 0.2f;
+    [SerializeField]
+    private float _dashFOV = 80f;
+
+    [SerializeField]
+    private GameObject _dashParticle;
 
     [SerializeField]
     private AnimationCurve _dashCurve;
 
-    [SerializeField]
-    private float _dashFOV = 80f;
+    
     
     [SerializeField, ColorUsage(false, false)]
     private Color _dashColor = Color.blue;
@@ -43,6 +47,7 @@ public class PlayerDash : PlayerComponentBase
 
     private Vignette _vignette;
     private ChromaticAberration _chromaticAberration;
+    private MotionBlur _motionBlur;
 
     private CinemachineVirtualCamera _vCam;
 
@@ -57,6 +62,7 @@ public class PlayerDash : PlayerComponentBase
 
         GlobalVolume.Instance.GetProfile(out _vignette);
         GlobalVolume.Instance.GetProfile(out _chromaticAberration);
+        GlobalVolume.Instance.GetProfile(out _motionBlur);
 
         _camFOV = _vCam.m_Lens.FieldOfView;
     }
@@ -94,6 +100,7 @@ public class PlayerDash : PlayerComponentBase
         _prevVelocity = _rb.velocity;
         _prevVelocity.y = 0f;
         
+        _dashParticle.gameObject.SetActive(true);
         
         if(_fovTweener is not null)
         {
@@ -108,8 +115,9 @@ public class PlayerDash : PlayerComponentBase
 
 
         _vignette.color.Override(_dashColor);
+        _vignette.intensity.Override(0.4f);
         
-        _vignette.intensity.Override(0.5f);
+        _motionBlur.intensity.Override(1f);
         
         _chromaticAberration.intensity.Override(1f);
         
@@ -148,12 +156,16 @@ public class PlayerDash : PlayerComponentBase
         _playerStateController.RemoveState(Player_State.Invincible);
         _playerStateController.RemoveState(Player_State.Dash);
 
+        _dashParticle.gameObject.SetActive(false);
+        
         _dashTimer = 0f;
     }
 
     private void ChangeVolume()
     {
         _vignette.DOIntensity(0f, _dashDuration).SetEase(Ease.InBack);
+
+        _motionBlur.DOIntensity(0f, _dashDuration).SetEase(Ease.InBack);
         
         _chromaticAberration.DOIntensity(0f, _dashDuration).SetEase(Ease.InBack);
     }
