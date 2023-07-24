@@ -9,6 +9,8 @@ public class PlayerMove : PlayerComponentBase
     [SerializeField]
     private float _lerpSmooth = 15f;
     
+    public bool IsFreeze{ get; set; }
+    
     private Rigidbody _rb;
     private Transform _camTransform;
 
@@ -22,13 +24,11 @@ public class PlayerMove : PlayerComponentBase
         
         _rb = transform.GetComponentCache<Rigidbody>();
         
-        OnGUIManager.Instance.Init("MoveToSpeed");
-        OnGUIManager.Instance.Init("IsLerpMove");
     }
 
     private void Update()
     {
-        if(_playerStateController.HasState(Player_State.Dash)) return;
+        if(IsFreeze) return;
 
          Vector3 moveInput = GetInput();
          SetState(moveInput);
@@ -42,10 +42,10 @@ public class PlayerMove : PlayerComponentBase
     /// <returns></returns>
     private Vector3 GetInput()
     {
-        float hori = Input.GetAxisRaw("Horizontal");
-        float verti = Input.GetAxisRaw("Vertical");
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
         
-        return new Vector3(hori, 0f, verti).normalized;
+        return new Vector3(horizontal, 0f, vertical).normalized;
     }
 
     /// <summary>
@@ -83,10 +83,10 @@ public class PlayerMove : PlayerComponentBase
 
         Vector3 dir = (right * input.x + forward * input.z).normalized;
 
-        _moveAmount = Vector3.Lerp(_moveAmount, dir * _speed, Time.deltaTime * _lerpSmooth);
+        _moveAmount = Vector3.Lerp(_moveAmount, dir * _speed, Time.deltaTime * _lerpSmooth) * TimeManager.PlayerTimeScale;
         _moveAmount.y = _rb.velocity.y;
 
-        _rb.velocity = _moveAmount * TimeManager.PlayerTimeScale;
+        _rb.velocity = _moveAmount;
     }
 
 

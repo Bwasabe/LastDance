@@ -9,11 +9,11 @@ public class CursorManager : MonoBehaviour
     private bool _visible = false;
 
     [SerializeField]
-    private CursorLockMode _cursorLockMode;
+    private CursorLockMode _cursorLockMode = CursorLockMode.Locked;
     private void Start()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = _visible;
+        Cursor.lockState = _cursorLockMode;
     }
 
     [ContextMenu("SetCursorVisible")]

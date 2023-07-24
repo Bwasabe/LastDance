@@ -15,6 +15,7 @@ public class PlayerJump : PlayerComponentBase
     }
     private Jump_State _jumpState = Jump_State.None;
 
+    public bool RemoveGravity{ get; set; } = false;
 
     [SerializeField]
     private float _jumpForce = 8f;
@@ -55,9 +56,10 @@ public class PlayerJump : PlayerComponentBase
 
     private void FixedUpdate()
     {
+        if(RemoveGravity) return;
+        
         // 중력 적용
-        if(!_playerStateController.HasState(Player_State.Dash))
-            _rb.AddForce(Physics.gravity.y * _gravityScale * TimeManager.PlayerTimeScale * Vector3.up, ForceMode.Force);
+        _rb.AddForce(Physics.gravity.y * _gravityScale * TimeManager.PlayerTimeScale * Vector3.up, ForceMode.Force);
     }
 
     private void LateUpdate()
@@ -86,10 +88,8 @@ public class PlayerJump : PlayerComponentBase
             if(_jumpState == Jump_State.JumpDown)
             {
                 _currentJumpCount = 0;
-
-                Vector3 velocity = _rb.velocity;
-                velocity.y = 0f;
-                _rb.velocity = velocity;
+                
+                _rb.SetVelocityY(0f);
                 
                 _jumpState = Jump_State.None;
                 _playerStateController.RemoveState(Player_State.Jump);
@@ -119,9 +119,7 @@ public class PlayerJump : PlayerComponentBase
                 
                 _playerStateController.AddState(Player_State.Jump);
                 
-                Vector3 velocity = _rb.velocity;
-                velocity.y = Mathf.Sqrt(_jumpForce * -2.0f * Physics.gravity.y) * TimeManager.PlayerTimeScale;
-                _rb.velocity = velocity;
+                _rb.SetVelocityY(Mathf.Sqrt(_jumpForce * -2.0f * Physics.gravity.y) * TimeManager.PlayerTimeScale);
             }
         }
 
@@ -138,7 +136,7 @@ public class PlayerJump : PlayerComponentBase
         return checkPos;
     }
 
-    private bool IsGround()
+    public bool IsGround()
     {
         Vector3 checkPos = GetGroundPos(); 
 
@@ -176,5 +174,10 @@ public class PlayerJump : PlayerComponentBase
 
             _rb.MovePosition(Vector3.down * distance);
         }
+    }
+    public void AddJumpCount()
+    {
+        if(_currentJumpCount < _jumpMaxCount)
+            _currentJumpCount++;
     }
 }

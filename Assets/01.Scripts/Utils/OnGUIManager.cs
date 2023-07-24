@@ -8,18 +8,10 @@ public class OnGUIManager : MonoSingleton<OnGUIManager>
 
     [SerializeField]
     private int _fontSize = 30;
-
-    public void Init(string value)
+    
+    public void SetGUI(string key, object value)
     {
-        if(!_guiDict.TryAdd(value, string.Empty))
-        {
-            throw new System.Exception($"{value} is already exist in Dict");
-        }
-    }
-
-    public void Set(string key, string value)
-    {
-        _guiDict[key] = value;
+        _guiDict[key] = value.ToString();
     }
 
 
@@ -32,9 +24,9 @@ public class OnGUIManager : MonoSingleton<OnGUIManager>
         label.normal.textColor = Color.red;
         label.fontSize = _fontSize;
 
-        foreach (string dict in _guiDict.Values)
+        foreach (KeyValuePair<string, string> dict in _guiDict)
         {
-            GUILayout.Label(dict, label);
+            GUILayout.Label($"{dict.Key} : {dict.Value}", label);
         }
 #endif
     }

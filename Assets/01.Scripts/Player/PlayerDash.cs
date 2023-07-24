@@ -43,6 +43,9 @@ public class PlayerDash : PlayerComponentBase
     private Rigidbody _rb;
 
     private Tweener _fovTweener;
+
+    private PlayerMove _playerMove;
+    private PlayerJump _playerJump;
     
 
     private Vignette _vignette;
@@ -57,6 +60,9 @@ public class PlayerDash : PlayerComponentBase
         base.Start();
 
         _rb = transform.GetComponentCache<Rigidbody>();
+
+        _playerMove = transform.GetComponentCache<PlayerMove>();
+        _playerJump = transform.GetComponentCache<PlayerJump>();
 
         _vCam = PlayerCamera.Instance.VirtualCamera;
 
@@ -97,6 +103,9 @@ public class PlayerDash : PlayerComponentBase
         if(_currentDashCount <= 0) return;
         if(_playerStateController.HasState(Player_State.Dash))return;
 
+        _playerMove.IsFreeze = true;
+        _playerJump.RemoveGravity = true;
+
         _prevVelocity = _rb.velocity;
         _prevVelocity.y = 0f;
         
@@ -127,9 +136,7 @@ public class PlayerDash : PlayerComponentBase
         _dashTimer = 0f;
         _currentDashCount--;
         
-        Vector3 velocity = _rb.velocity;
-        velocity.y = 0f;
-        _rb.velocity = velocity;
+        _rb.SetVelocityY(0f);
 
         _dashAmount = Define.MainCam.transform.forward * _dashDistance;
 
@@ -156,6 +163,9 @@ public class PlayerDash : PlayerComponentBase
         _playerStateController.RemoveState(Player_State.Invincible);
         _playerStateController.RemoveState(Player_State.Dash);
 
+        _playerMove.IsFreeze = false;
+        _playerJump.RemoveGravity = false;
+        
         _dashParticle.gameObject.SetActive(false);
         
         _dashTimer = 0f;
