@@ -104,9 +104,11 @@ public class PlayerWallRunning : MonoBehaviour
         {
             if(Input.GetKeyDown(KeyCode.Space))
             {
+                Debug.Log("WallJump");
                 WallJump();
                 WallRunningEnd();
 
+                return;
             }
         }
         
