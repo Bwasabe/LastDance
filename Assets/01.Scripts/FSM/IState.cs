@@ -1,15 +1,15 @@
 using UnityEngine;
 
 /// <summary>
-/// StateÀÇ °øÅë ÇÔ¼ö Á¤ÀÇ
+/// Stateì˜ ê³µí†µ í•¨ìˆ˜ ì •ì˜
 /// </summary>
 public interface IState
 {
-    public void Enter(); // ÇØ´ç StateÀÇ µé¾î¿Ô´Â°¡
-    public void Exit(); // ÇØ´ç State¸¦ ³ª°¬´Â°¡
-    public void HandleInput(); // ÀÔ·Â
-    public void Update(); // ¹İº¹
-    public void PhysicsUpdate(); // ¹°¸®ÀûÀÎ ¹İº¹(FixedUpdate)
+    public void Enter(); // í•´ë‹¹ Stateì˜ ë“¤ì–´ì™”ëŠ”ê°€
+    public void Exit(); // í•´ë‹¹ Stateë¥¼ ë‚˜ê°”ëŠ”ê°€
+    public void HandleInput(); // ì…ë ¥
+    public void Update(); // ë°˜ë³µ
+    public void PhysicsUpdate(); // ë¬¼ë¦¬ì ì¸ ë°˜ë³µ(FixedUpdate)
     public void OnTriggerEnter(Collider collider);
     public void OnTriggerExit(Collider collider);
     public void OnCollisionEnter(Collision collision);

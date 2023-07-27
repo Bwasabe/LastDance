@@ -17,6 +17,11 @@ public class PlayerWallRunning : MonoBehaviour
     [SerializeField]
     private float _lerpSmooth = 12f;
 
+    [SerializeField]
+    private float _wallJumpDuration = 0.1f;
+    [SerializeField]
+    private float _wallJumpForce = 3f;
+
 
     private Rigidbody _rb;
     private CapsuleCollider _capsuleCollider;
@@ -29,6 +34,9 @@ public class PlayerWallRunning : MonoBehaviour
     private readonly List<RaycastHit> _results = new(8);
 
     private Coroutine _wallJumpCoroutine;
+
+    private bool _isReadyToWallJump = false;
+    
     private bool _isWallRunning = false;
     
     private void Start()
@@ -92,7 +100,18 @@ public class PlayerWallRunning : MonoBehaviour
 
     private void Update()
     {
+        if(_isReadyToWallJump)
+        {
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                WallJump();
+                WallRunningEnd();
+
+            }
+        }
+        
         if(_playerJump.IsGround()) return;
+        if(_rb.velocity.y > 0) return;
 
         CheckWallState();
 
@@ -114,19 +133,28 @@ public class PlayerWallRunning : MonoBehaviour
         else
         {
             if(_isWallRunning)
+            {
                 WallRunningEnd();
+                StartCoroutine(ReadyToWallJump());
+            }
         }
         
     }
+    private void WallJump()
+    {
+        Vector3 jumpVector = _camTransform.forward + Vector3.up;
+        jumpVector.Normalize();
+        
+        _rb.AddForce(jumpVector * _wallJumpForce, ForceMode.Impulse);
 
-    
+        _isReadyToWallJump = false;
+    }
+
+
     private void WallRunningStart()
     {
-        Debug.Log("Start");
         // 카메라 각도 돌림
         _isWallRunning = true;
-        
-        _playerJump.AddJumpCount();
         
         _playerJump.enabled = false;
     }
@@ -151,6 +179,14 @@ public class PlayerWallRunning : MonoBehaviour
         _rb.velocity = _moveAmount;
     }
 
+    private IEnumerator ReadyToWallJump()
+    {
+        _isReadyToWallJump = true;
+        yield return Yields.WaitForSeconds(_wallJumpDuration); 
+        _isReadyToWallJump = false;
+
+    }
+
     private void StickWall()
     {
         _rb.AddForce(-_results[0].normal, ForceMode.Impulse);
@@ -158,10 +194,7 @@ public class PlayerWallRunning : MonoBehaviour
 
     private void WallRunningEnd()
     {
-        Debug.Log("End");
-
         _isWallRunning = false;
-
         _playerJump.enabled = true;
     }
 

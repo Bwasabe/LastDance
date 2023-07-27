@@ -2,7 +2,7 @@ using UnityEngine;
 
 public abstract class StateMachine
 {
-    protected IState currentState; // ÇöÀç »óÅÂ
+    protected IState currentState; // í˜„ì¬ ìƒíƒœ
 
     public void ChangeState(IState newState)
     {

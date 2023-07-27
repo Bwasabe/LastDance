@@ -32,7 +32,7 @@ public class TurretPatrolState : TurretBasicState
             }
         }
 
-        // test¿ë Á×À½
+        // testìš© ì£½ìŒ
         if(Input.GetKeyDown(KeyCode.M))
         {
             stateMachine.Turret.StopCoroutine(currentCoroutine);
@@ -64,19 +64,19 @@ public class TurretPatrolState : TurretBasicState
 
     private void SettingRotateZ()
     {
-        // ÃÊ±â È¸Àü »óÅÂ ÀúÀå
+        // ì´ˆê¸° íšŒì „ ìƒíƒœ ì €ì¥
         Quaternion initialRotation = stateMachine.Turret.Head.rotation;
 
-        // 0¿¡¼­ 180µµ »çÀÌÀÇ ·£´ıÇÑ °¢µµ¸¦ »ı¼ºÇÕ´Ï´Ù.
+        // 0ì—ì„œ 180ë„ ì‚¬ì´ì˜ ëœë¤í•œ ê°ë„ë¥¼ ìƒì„±í•©ë‹ˆë‹¤.
         float targetAngle = Random.Range(turret.Data.MinRotateZ, turret.Data.MaxRotateZ);
 
-        // ·£´ıÇÏ°Ô È¸Àü ¹æÇâÀ» ¼±ÅÃÇÕ´Ï´Ù.
+        // ëœë¤í•˜ê²Œ íšŒì „ ë°©í–¥ì„ ì„ íƒí•©ë‹ˆë‹¤.
         float rotationDirection = Random.value < 0.5f ? -1f : 1f;
 
-        // È¸Àü¿¡ °É¸®´Â ½Ã°£À» °è»êÇÕ´Ï´Ù.
+        // íšŒì „ì— ê±¸ë¦¬ëŠ” ì‹œê°„ì„ ê³„ì‚°í•©ë‹ˆë‹¤.
         float rotationTime = Mathf.Abs(targetAngle / turret.Data.RotationSpeed);
 
-        // È¸Àü ¹æÇâ°ú °¢µµ¿¡ µû¶ó¼­ ¸ñÇ¥ È¸ÀüÀ» °è»êÇÕ´Ï´Ù.
+        // íšŒì „ ë°©í–¥ê³¼ ê°ë„ì— ë”°ë¼ì„œ ëª©í‘œ íšŒì „ì„ ê³„ì‚°í•©ë‹ˆë‹¤.
         Vector3 targetEulerAngles = initialRotation.eulerAngles.SetZ(0) + new Vector3(0f, 0f, rotationDirection * targetAngle);
         Quaternion targetRotation = Quaternion.Euler(targetEulerAngles);
 
@@ -86,16 +86,16 @@ public class TurretPatrolState : TurretBasicState
 
     private void SettingRotateX()
     {
-        // ÃÊ±â È¸Àü »óÅÂ ÀúÀå
+        // ì´ˆê¸° íšŒì „ ìƒíƒœ ì €ì¥
         Quaternion initialRotation = stateMachine.Turret.Head.rotation;
 
         float targetAngle = Random.Range(turret.Data.MinRotateX, turret.Data.MaxRotateX);
 
 
-        // È¸Àü¿¡ °É¸®´Â ½Ã°£À» °è»êÇÕ´Ï´Ù.
+        // íšŒì „ì— ê±¸ë¦¬ëŠ” ì‹œê°„ì„ ê³„ì‚°í•©ë‹ˆë‹¤.
         float rotationTime = Mathf.Abs(targetAngle / turret.Data.RotationSpeed);
 
-        // È¸Àü ¹æÇâ°ú °¢µµ¿¡ µû¶ó¼­ ¸ñÇ¥ È¸ÀüÀ» °è»êÇÕ´Ï´Ù.
+        // íšŒì „ ë°©í–¥ê³¼ ê°ë„ì— ë”°ë¼ì„œ ëª©í‘œ íšŒì „ì„ ê³„ì‚°í•©ë‹ˆë‹¤.
         Vector3 targetEulerAngles = initialRotation.eulerAngles.SetX(0) + new Vector3(targetAngle, 0f, 0f);
         Quaternion targetRotation = Quaternion.Euler(targetEulerAngles);
 
@@ -116,11 +116,11 @@ public class TurretPatrolState : TurretBasicState
             yield return null;
         }
 
-        // È¸Àü ¿Ï·á ÈÄ, Á¤È®È÷ ¸ñÇ¥ È¸Àü °¢µµ·Î ¼³Á¤ÇÕ´Ï´Ù.
+        // íšŒì „ ì™„ë£Œ í›„, ì •í™•íˆ ëª©í‘œ íšŒì „ ê°ë„ë¡œ ì„¤ì •í•©ë‹ˆë‹¤.
         turretHead.rotation = targetRotation;
 
         float rand = Random.Range(turret.Data.DelayMaxAgainRotate, turret.Data.DelayMaxAgainRotate);
-        yield return new WaitForSeconds(rand);
+        yield return Yields.WaitForSeconds(rand);
 
         ChoiceRotate();
     }
