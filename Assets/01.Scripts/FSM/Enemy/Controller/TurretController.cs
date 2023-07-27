@@ -22,7 +22,7 @@ public class TurretController : MonoBehaviour
     public MeshRenderer LaserRenderer { get; private set; }
     public Rigidbody HeadRigidbody { get; private set; }
 
-    // To do PoolManagerÀ¸·Î º¯È¯
+    // To do PoolManagerìœ¼ë¡œ ë³€í™˜
     [SerializeField]
     private GameObject bullet;
 
