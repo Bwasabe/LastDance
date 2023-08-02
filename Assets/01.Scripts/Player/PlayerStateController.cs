@@ -12,6 +12,7 @@ public enum Player_State
     Attack = 1 << 3,
     Dash = 1 << 4,
     Invincible = 1 << 5,
+    WallRunning = 1 << 6,
 }
 
 public class PlayerStateController : MonoBehaviour

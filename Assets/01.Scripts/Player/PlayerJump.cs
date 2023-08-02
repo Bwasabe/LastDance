@@ -13,6 +13,7 @@ public class PlayerJump : PlayerComponentBase
         JumpUp = 1,
         JumpDown = 2,
     }
+
     private Jump_State _jumpState = Jump_State.None;
 
     public bool RemoveGravity{ get; set; } = false;
@@ -32,10 +33,10 @@ public class PlayerJump : PlayerComponentBase
 
     private CapsuleCollider _capsuleCollider;
 
-    private int _currentJumpCount;
+    public int CurrentJumpCount{ get; set; }
 
-    private const float _tolerance = 0.01f;
-    private const float _radiusTolerance = 0.02f;
+    private const float TOLERANCE = 0.01f;
+    private const float RADIUS_TOLERANCE = 0.02f;
 
     protected override void Start()
     {
@@ -48,16 +49,36 @@ public class PlayerJump : PlayerComponentBase
     private void Update()
     {
         CheckJumpState();
-        
+
         GroundAction();
-        
-        Jump();
+        // 점프키를 눌렀을 경우
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            if(CurrentJumpCount < _jumpMaxCount)
+            {
+                bool isFirstJump = CurrentJumpCount == 0;
+
+                // 처음 하는 점프에서 땅이 아닐경우 한번만 점프하도록
+                if(isFirstJump)
+                {
+                    if(IsGround())
+                        CurrentJumpCount++;
+                    else
+                        CurrentJumpCount += 2;
+                }
+                else
+                    CurrentJumpCount++;
+
+                Jump();
+            }
+        }
+
     }
 
     private void FixedUpdate()
     {
         if(RemoveGravity) return;
-        
+
         // 중력 적용
         _rb.AddForce(Physics.gravity.y * _gravityScale * TimeManager.PlayerTimeScale * Vector3.up, ForceMode.Force);
     }
@@ -87,43 +108,21 @@ public class PlayerJump : PlayerComponentBase
             // 내려오는 중이면
             if(_jumpState == Jump_State.JumpDown)
             {
-                _currentJumpCount = 0;
-                
+                CurrentJumpCount = 0;
+
                 _rb.SetVelocityY(0f);
-                
+
                 _jumpState = Jump_State.None;
                 _playerStateController.RemoveState(Player_State.Jump);
             }
         }
     }
 
-    private void Jump()
+    public void Jump()
     {
-        // 점프키를 눌렀을 경우
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            if(_currentJumpCount < _jumpMaxCount)
-            {
-                bool isFirstJump = _currentJumpCount == 0;
-                
-                // 처음 하는 점프에서 땅이 아닐경우 한번만 점프하도록
-                if(isFirstJump)
-                {
-                    if(IsGround())
-                        _currentJumpCount++;
-                    else
-                        _currentJumpCount += 2;
-                }
-                else
-                    _currentJumpCount++;
-                
-                _playerStateController.AddState(Player_State.Jump);
-                
-                _rb.SetVelocityY(Mathf.Sqrt(_jumpForce * -2.0f * Physics.gravity.y) * TimeManager.PlayerTimeScale);
-            }
-        }
+        _playerStateController.AddState(Player_State.Jump);
 
-        
+        _rb.SetVelocityY(Mathf.Sqrt(_jumpForce * -2.0f * Physics.gravity.y) * TimeManager.PlayerTimeScale);
     }
 
     private Vector3 GetGroundPos()
@@ -131,16 +130,16 @@ public class PlayerJump : PlayerComponentBase
         Vector3 checkPos = _capsuleCollider.transform.position + _capsuleCollider.center;
         float halfHeight = _capsuleCollider.height * 0.5f - _capsuleCollider.radius;
 
-        checkPos.y -= halfHeight + _tolerance + _radiusTolerance;
+        checkPos.y -= halfHeight + TOLERANCE + RADIUS_TOLERANCE;
 
         return checkPos;
     }
 
     public bool IsGround()
     {
-        Vector3 checkPos = GetGroundPos(); 
+        Vector3 checkPos = GetGroundPos();
 
-        return Physics.CheckSphere(checkPos, _capsuleCollider.radius - _radiusTolerance, _groundLayer);
+        return Physics.CheckSphere(checkPos, _capsuleCollider.radius - RADIUS_TOLERANCE, _groundLayer);
     }
 
     private void OnDrawGizmos()
@@ -151,7 +150,7 @@ public class PlayerJump : PlayerComponentBase
 
             Vector3 checkPos = GetGroundPos();
 
-            Gizmos.DrawSphere(checkPos, _capsuleCollider.radius - _radiusTolerance);
+            Gizmos.DrawSphere(checkPos, _capsuleCollider.radius - RADIUS_TOLERANCE);
         }
         catch {}
 
@@ -174,10 +173,5 @@ public class PlayerJump : PlayerComponentBase
 
             _rb.MovePosition(Vector3.down * distance);
         }
-    }
-    public void AddJumpCount()
-    {
-        if(_currentJumpCount < _jumpMaxCount)
-            _currentJumpCount++;
     }
 }

@@ -5,17 +5,19 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
     [SerializeField]
-    private float _sencetive = 3f;
+    private float _sensitiveness = 3f;
 
     [SerializeField]
-    private Vector3 _maxRotate = new Vector3(0f,89f,0f);
-
-    [SerializeField]
-    private Vector3 _minRotate= new Vector3(0f,-89f,0f);
+    private Vector2 _rotateClamp = new (-89f, 89f);
 
     private float _rotateX = 0f;
     private float _rotateY = 0f;
 
+    private Coroutine _rotationValueCoroutine;
+
+    public float RotationZ{ get; set; } = 0f;
+
+    private Vector3 _rotationValue = Vector3.zero;
     
     private void LateUpdate()
     {
@@ -27,11 +29,11 @@ public class CameraMovement : MonoBehaviour
         float x = Input.GetAxis("Mouse X");
         float y = Input.GetAxis("Mouse Y");
 
-        _rotateX += x * _sencetive;
-        _rotateY += y * _sencetive;
+        _rotateX += x * _sensitiveness;
+        _rotateY += y * _sensitiveness;
+        
+        _rotateY = Mathf.Clamp(_rotateY, _rotateClamp.x, _rotateClamp.y);
 
-        _rotateY = Mathf.Clamp(_rotateY, _minRotate.y, _maxRotate.y);
-
-        transform.rotation = Quaternion.Euler(-_rotateY, _rotateX, 0f);
+        transform.localRotation = Quaternion.Euler(-_rotateY,_rotateX, RotationZ);
     }
 }

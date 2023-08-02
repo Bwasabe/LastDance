@@ -1,5 +1,4 @@
 using System;
-using Cinemachine;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -23,7 +22,6 @@ public class Bound
 }
 public static class Define
 {
-    
     private static Camera _mainCam;
     public static Camera MainCam
     {
@@ -58,29 +56,45 @@ public static class Define
 
         float currentSizeRandom = 0f;
 
-        for (int i = 0; i < bounds.Length; ++i)
+        foreach (Bound bound in bounds)
         {
-            sizeAmount += bounds[i].Size.magnitude;
+            sizeAmount += bound.Size.magnitude;
         }
-        for (int i = 0; i < bounds.Length; ++i)
+        
+        foreach (Bound bound in bounds)
         {
-            if (random <= bounds[i].Size.magnitude / sizeAmount + currentSizeRandom)
+            if (random <= bound.Size.magnitude / sizeAmount + currentSizeRandom)
             {
-                return bounds[i];
+                return bound;
             }
             else
             {
-                currentSizeRandom += bounds[i].Size.magnitude / sizeAmount;
+                currentSizeRandom += bound.Size.magnitude / sizeAmount;
             }
         }
 
         int rand = Random.Range(0, bounds.Length);
         return bounds[rand];
     }
+
+    public static Vector3 AngleToVector3(float angle)
+    {
+        return new(Mathf.Cos(angle * Mathf.Deg2Rad), 0f, Mathf.Sin(angle * Mathf.Deg2Rad));
+    }
+
+    // public static Vector3 RotatedVector(Vector3 vec)
+    // {
+    //     float xAngle = Mathf.Atan2(vec.y, vec.z) * Mathf.Rad2Deg;
+    //
+    //     float yAngle = Mathf.Atan2(vec.z, vec.x) * Mathf.Rad2Deg;
+    //
+    //     float zAngle = Mathf.Atan2(vec.y, vec.x) * Mathf.Rad2Deg;
+    //     
+    //     return new(xAngle, yAngle, zAngle);
+    // }
 }
 
 namespace System.Runtime.CompilerServices
 {
-    public static class IsExternalInit
-    {}
+    public static class IsExternalInit {}
 }
