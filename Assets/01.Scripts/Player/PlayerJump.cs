@@ -26,17 +26,14 @@ public class PlayerJump : PlayerComponentBase
     [SerializeField]
     private int _jumpMaxCount = 2;
 
-    [SerializeField]
-    private LayerMask _groundLayer;
 
     private Rigidbody _rb;
 
     private CapsuleCollider _capsuleCollider;
+    private PlayerGroundController _groundController;
 
     public int CurrentJumpCount{ get; set; }
-
-    private const float TOLERANCE = 0.01f;
-    private const float RADIUS_TOLERANCE = 0.02f;
+    
 
     protected override void Start()
     {
@@ -44,11 +41,13 @@ public class PlayerJump : PlayerComponentBase
 
         _rb = transform.GetComponentCache<Rigidbody>();
         _capsuleCollider = transform.GetComponentCache<CapsuleCollider>();
+        _groundController = transform.GetComponentCache<PlayerGroundController>();
     }
 
     private void Update()
     {
-        CheckJumpState();
+        if(_playerStateController.HasState(Player_State.Jump))
+            CheckJumpState();
 
         GroundAction();
         // 점프키를 눌렀을 경우
@@ -61,7 +60,7 @@ public class PlayerJump : PlayerComponentBase
                 // 처음 하는 점프에서 땅이 아닐경우 한번만 점프하도록
                 if(isFirstJump)
                 {
-                    if(IsGround())
+                    if(_groundController.IsGround)
                         CurrentJumpCount++;
                     else
                         CurrentJumpCount += 2;
@@ -83,11 +82,6 @@ public class PlayerJump : PlayerComponentBase
         _rb.AddForce(Physics.gravity.y * _gravityScale * TimeManager.PlayerTimeScale * Vector3.up, ForceMode.Force);
     }
 
-    private void LateUpdate()
-    {
-        AdjoinGround();
-    }
-
     private void CheckJumpState()
     {
         if(_rb.velocity.y > 0)
@@ -103,7 +97,7 @@ public class PlayerJump : PlayerComponentBase
     private void GroundAction()
     {
         // 땅에 닿아있는 상태에서
-        if(IsGround())
+        if(_groundController.IsGround)
         {
             // 내려오는 중이면
             if(_jumpState == Jump_State.JumpDown)
@@ -125,53 +119,28 @@ public class PlayerJump : PlayerComponentBase
         _rb.SetVelocityY(Mathf.Sqrt(_jumpForce * -2.0f * Physics.gravity.y) * TimeManager.PlayerTimeScale);
     }
 
-    private Vector3 GetGroundPos()
-    {
-        Vector3 checkPos = _capsuleCollider.transform.position + _capsuleCollider.center;
-        float halfHeight = _capsuleCollider.height * 0.5f - _capsuleCollider.radius;
+    // private Vector3 GetGroundPos()
+    // {
+    //     Vector3 checkPos = _capsuleCollider.transform.position + _capsuleCollider.center;
+    //     float halfHeight = _capsuleCollider.height * 0.5f - _capsuleCollider.radius;
+    //
+    //     checkPos.y -= halfHeight;
+    //
+    //     return checkPos;
+    // }
+    
 
-        checkPos.y -= halfHeight + TOLERANCE + RADIUS_TOLERANCE;
-
-        return checkPos;
-    }
-
-    public bool IsGround()
-    {
-        Vector3 checkPos = GetGroundPos();
-
-        return Physics.CheckSphere(checkPos, _capsuleCollider.radius - RADIUS_TOLERANCE, _groundLayer);
-    }
-
-    private void OnDrawGizmos()
-    {
-        try
-        {
-            Gizmos.color = Color.red;
-
-            Vector3 checkPos = GetGroundPos();
-
-            Gizmos.DrawSphere(checkPos, _capsuleCollider.radius - RADIUS_TOLERANCE);
-        }
-        catch {}
-
-    }
-
-    /// <summary>
-    /// 플레이어가 내리막길 같은 곳을 갈 때 땅에 붙어서 갈 수 있도록 해주는 함수
-    /// </summary>
-    private void AdjoinGround()
-    {
-        if(_playerStateController.HasState(Player_State.Jump)) return;
-
-        if(_jumpState is not Jump_State.None) return;
-
-        if(Physics.Raycast(_capsuleCollider.transform.position, Vector3.down, out RaycastHit hit, 0.5f, _groundLayer))
-        {
-            Vector3 checkPos = GetGroundPos();
-
-            float distance = checkPos.y - hit.point.y;
-
-            _rb.MovePosition(Vector3.down * distance);
-        }
-    }
+    // private void OnDrawGizmos()
+    // {
+    //     try
+    //     {
+    //         Gizmos.color = Color.red;
+    //
+    //         Vector3 checkPos = GetGroundPos();
+    //
+    //         Gizmos.DrawSphere(checkPos, _capsuleCollider.radius - RADIUS_TOLERANCE);
+    //     }
+    //     catch {}
+    //
+    // }
 }

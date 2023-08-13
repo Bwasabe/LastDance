@@ -13,6 +13,7 @@ public class PlayerMove : PlayerComponentBase
     
     private Rigidbody _rb;
     private Transform _camTransform;
+    private PlayerGroundController _groundController;
 
     private Vector3 _moveAmount;
 
@@ -23,7 +24,7 @@ public class PlayerMove : PlayerComponentBase
         _camTransform = Define.MainCam.transform;
         
         _rb = transform.GetComponentCache<Rigidbody>();
-        
+        _groundController = transform.GetComponentCache<PlayerGroundController>();
     }
 
     private void Update()
@@ -83,9 +84,24 @@ public class PlayerMove : PlayerComponentBase
 
         Vector3 dir = (right * input.x + forward * input.z).normalized;
 
-        _moveAmount = Vector3.Lerp(_moveAmount, dir * _speed, Time.deltaTime * _lerpSmooth) * TimeManager.PlayerTimeScale;
-        _moveAmount.y = _rb.velocity.y;
-
+        if(_groundController.GroundValue)
+        {
+            dir = Vector3.ProjectOnPlane(dir, _groundController.GroundInfo.normal);
+            
+            Debug.DrawLine(transform.position, transform.position + dir, Color.magenta, 1f);
+            
+            _moveAmount = Vector3.Lerp(_moveAmount, dir * _speed, Time.deltaTime * _lerpSmooth) * TimeManager.PlayerTimeScale;
+            
+            if(_playerStateController.HasState(Player_State.Jump))
+                _moveAmount.y = _rb.velocity.y;
+        }
+        else
+        {
+            
+            _moveAmount = Vector3.Lerp(_moveAmount, dir * _speed, Time.deltaTime * _lerpSmooth) * TimeManager.PlayerTimeScale;
+            _moveAmount.y = _rb.velocity.y;
+        }
+        
         _rb.velocity = _moveAmount;
     }
 

@@ -25,6 +25,8 @@ public class PlayerWallRunning : PlayerComponentBase
     private float _lerpSmooth = 12f;
     [SerializeField]
     private float _wallRotationDuration = 0.2f;
+    [SerializeField]
+    private float _wallJumpDuration = 0.2f;
 
     [SerializeField]
     private float _camRotationMultiplier = 30f;
@@ -38,20 +40,23 @@ public class PlayerWallRunning : PlayerComponentBase
     private Tweener _camRotateTweener;
 
     private PlayerJump _playerJump;
+    private PlayerGroundController _groundController;
     private CameraMovement _cameraMovement;
 
     private Vector3 _moveAmount;
 
     private float _dampVelocity;
-    
+
     protected override void Start()
     {
         base.Start();
 
         _rb = transform.GetComponentCache<Rigidbody>();
         _capsuleCollider = transform.GetComponentCache<CapsuleCollider>();
+        
         _playerJump = transform.GetComponentCache<PlayerJump>();
-
+        _groundController = transform.GetComponentCache<PlayerGroundController>();
+        
         _cameraMovement = transform.GetComponentCache<CameraMovement>();
     }
 
@@ -102,7 +107,7 @@ public class PlayerWallRunning : PlayerComponentBase
         OnGUIManager.Instance.SetGUI("Velocity", _rb.velocity);
 
         // 땅에 닿았을 때 처리
-        if(_playerJump.IsGround())
+        if(_groundController.GroundValue)
         {
             if(_playerStateController.HasState(Player_State.WallRunning))
                 WallRunningEnd();
@@ -110,49 +115,86 @@ public class PlayerWallRunning : PlayerComponentBase
             _wallJumpState = WallJumpState.None;
             return;
         }
+        
+        
+        if(_wallJumpState == WallJumpState.None)
+        {
+            OnStateNone();
+        }
+        else if(_wallJumpState == WallJumpState.ReadyToJump)
+        {
+            OnStateReadyToJump();
+        }
+        else if(_wallJumpState == WallJumpState.Jumping)
+        {
+            OnStateJumping();
+        }
+    }
+    private void OnStateJumping()
+    {
+        if(_rb.velocity.y < 0)
+            _wallJumpState = WallJumpState.None;
+    }
+    private void OnStateReadyToJump()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            WallJump();
+        }
+    }
+    private void OnStateNone()
+    {
 
         CheckWallState();
 
         if(_results.Count == 0)
         {
             if(_playerStateController.HasState(Player_State.WallRunning))
+            {
                 WallRunningEnd();
+                StartCoroutine(ReadyToJump());
+            }
 
             return;
         }
 
-        if(_wallJumpState == WallJumpState.None)
+        if(Input.GetKey(KeyCode.Space))
         {
-            if(Input.GetKey(KeyCode.Space))
-            {
-                if(!_playerStateController.HasState(Player_State.WallRunning))
-                    WallRunningStart();
+            if(!_playerStateController.HasState(Player_State.WallRunning))
+                WallRunningStart();
 
-                WallRunning();
-            }
-            else if(_playerStateController.HasState(Player_State.WallRunning))
-            {
-                WallRunningEnd();
-                _wallJumpState = WallJumpState.ReadyToJump;
-            }
+            WallRunning();
         }
-        else if(_wallJumpState == WallJumpState.ReadyToJump)
+        else if(_playerStateController.HasState(Player_State.WallRunning))
         {
-            if(Input.GetKeyDown(KeyCode.Space))
-            {
-                WallJump();
-            }
-        }
-        else if(_wallJumpState == WallJumpState.Jumping)
-        {
-            if(_rb.velocity.y < 0)
-                _wallJumpState = WallJumpState.None;
+            WallRunningEnd();
+            StartCoroutine(ReadyToJump());
         }
     }
 
+    private IEnumerator ReadyToJump()
+    {
+        _wallJumpState = WallJumpState.ReadyToJump;
+
+        yield return Yields.WaitForSeconds(_wallJumpDuration);
+
+        if(_wallJumpState == WallJumpState.ReadyToJump)
+            _wallJumpState = WallJumpState.None;
+    }
+
+
     private void WallJump()
     {
-        // AddJumpCount();
+        // Debug.Log("WallJump");
+        // IEnumerator Task()
+        // {
+        //     yield return Yields.WaitForEndOfFrame;
+        //     _playerJump.CurrentJumpCount = 0;
+        // }
+
+        _playerJump.Jump();
+
+        // StartCoroutine(Task());
         _wallJumpState = WallJumpState.Jumping;
         WallRunningEnd();
     }
@@ -165,8 +207,8 @@ public class PlayerWallRunning : PlayerComponentBase
             _camRotateTweener.Kill();
         }
 
-        _playerJump.CurrentJumpCount = -1;
-
+        // _playerJump.CurrentJumpCount = 0;
+        
         _rb.SetVelocityY(0f);
 
         _playerJump.RemoveGravity = true;
@@ -192,8 +234,10 @@ public class PlayerWallRunning : PlayerComponentBase
         float deltaAngle = Mathf.DeltaAngle(_cameraMovement.transform.eulerAngles.y, signedAngle);
         float rotationAngle = -deltaAngle / 90f * _camRotationMultiplier;
         
+        OnGUIManager.Instance.SetGUI("deltaAngle", deltaAngle);
+        
         // 고개가 돌아가도 괜찮은 각도
-        if(deltaAngle >= -130 && deltaAngle <= 130)
+        if(deltaAngle >= -150 && deltaAngle <= 150)
         {
             _cameraMovement.RotationZ = Mathf.SmoothDamp(_cameraMovement.RotationZ, rotationAngle, ref _dampVelocity, _wallRotationDuration);
         }

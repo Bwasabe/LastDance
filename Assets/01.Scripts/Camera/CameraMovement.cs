@@ -16,8 +16,6 @@ public class CameraMovement : MonoBehaviour
     private Coroutine _rotationValueCoroutine;
 
     public float RotationZ{ get; set; } = 0f;
-
-    private Vector3 _rotationValue = Vector3.zero;
     
     private void LateUpdate()
     {
