@@ -107,7 +107,7 @@ public class PlayerWallRunning : PlayerComponentBase
         OnGUIManager.Instance.SetGUI("Velocity", _rb.velocity);
 
         // 땅에 닿았을 때 처리
-        if(_groundController.GroundValue)
+        if(_groundController.IsGround)
         {
             if(_playerStateController.HasState(Player_State.WallRunning))
                 WallRunningEnd();

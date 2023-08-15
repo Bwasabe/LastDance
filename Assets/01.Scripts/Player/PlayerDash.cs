@@ -75,6 +75,8 @@ public class PlayerDash : PlayerComponentBase
 
     private void Update()
     {
+        if(_playerStateController.HasState(Player_State.ReadyToSlide)) return;
+        
         Cooldown();
 
         if (Input.GetKeyDown(KeyCode.LeftShift))

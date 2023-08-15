@@ -7,15 +7,12 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerJump : PlayerComponentBase
 {
-    private enum Jump_State
+    private enum CheckState
     {
-        None = 0,
-        JumpUp = 1,
-        JumpDown = 2,
+        None,
+        UpGround,
+        DownGround,
     }
-
-    private Jump_State _jumpState = Jump_State.None;
-
     public bool RemoveGravity{ get; set; } = false;
 
     [SerializeField]
@@ -29,49 +26,61 @@ public class PlayerJump : PlayerComponentBase
 
     private Rigidbody _rb;
 
-    private CapsuleCollider _capsuleCollider;
     private PlayerGroundController _groundController;
 
-    public int CurrentJumpCount{ get; set; }
-    
+    private int _currentJumpCount;
+
+    private float _prevVelocityY;
+
+    private CheckState _checkState = CheckState.None;
 
     protected override void Start()
     {
         base.Start();
 
         _rb = transform.GetComponentCache<Rigidbody>();
-        _capsuleCollider = transform.GetComponentCache<CapsuleCollider>();
         _groundController = transform.GetComponentCache<PlayerGroundController>();
     }
 
     private void Update()
     {
         if(_playerStateController.HasState(Player_State.Jump))
-            CheckJumpState();
+            GroundCheck();
 
-        GroundAction();
         // 점프키를 눌렀을 경우
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            if(CurrentJumpCount < _jumpMaxCount)
+            if(_currentJumpCount < _jumpMaxCount)
             {
-                bool isFirstJump = CurrentJumpCount == 0;
+                bool isFirstJump = _currentJumpCount == 0;
 
                 // 처음 하는 점프에서 땅이 아닐경우 한번만 점프하도록
                 if(isFirstJump)
                 {
                     if(_groundController.IsGround)
-                        CurrentJumpCount++;
+                        _currentJumpCount++;
                     else
-                        CurrentJumpCount += 2;
+                        _currentJumpCount += 2;
                 }
                 else
-                    CurrentJumpCount++;
+                    _currentJumpCount++;
 
                 Jump();
             }
         }
-
+    }
+    private void GroundCheck()
+    {
+        // UpGround에서 IsGround가 False가 되었다
+        if(_checkState == CheckState.UpGround && !_groundController.IsGround)
+        {
+            _checkState = CheckState.DownGround;
+        }
+        // DownGround상태에서 땅에 닿았으면
+        else if(_checkState == CheckState.DownGround && _groundController.IsGround)
+        {
+            OnGround();
+        }
     }
 
     private void FixedUpdate()
@@ -82,65 +91,24 @@ public class PlayerJump : PlayerComponentBase
         _rb.AddForce(Physics.gravity.y * _gravityScale * TimeManager.PlayerTimeScale * Vector3.up, ForceMode.Force);
     }
 
-    private void CheckJumpState()
+    
+    private void OnGround()
     {
-        if(_rb.velocity.y > 0)
-        {
-            _jumpState = Jump_State.JumpUp;
-        }
-        else
-        {
-            _jumpState = Jump_State.JumpDown;
-        }
-    }
+        _currentJumpCount = 0;
 
-    private void GroundAction()
-    {
-        // 땅에 닿아있는 상태에서
-        if(_groundController.IsGround)
-        {
-            // 내려오는 중이면
-            if(_jumpState == Jump_State.JumpDown)
-            {
-                CurrentJumpCount = 0;
+        _rb.SetVelocityY(0f);
 
-                _rb.SetVelocityY(0f);
+        _checkState = CheckState.None;
 
-                _jumpState = Jump_State.None;
-                _playerStateController.RemoveState(Player_State.Jump);
-            }
-        }
+        _playerStateController.RemoveState(Player_State.Jump);
     }
 
     public void Jump()
     {
         _playerStateController.AddState(Player_State.Jump);
+        _checkState = CheckState.UpGround;
 
         _rb.SetVelocityY(Mathf.Sqrt(_jumpForce * -2.0f * Physics.gravity.y) * TimeManager.PlayerTimeScale);
     }
 
-    // private Vector3 GetGroundPos()
-    // {
-    //     Vector3 checkPos = _capsuleCollider.transform.position + _capsuleCollider.center;
-    //     float halfHeight = _capsuleCollider.height * 0.5f - _capsuleCollider.radius;
-    //
-    //     checkPos.y -= halfHeight;
-    //
-    //     return checkPos;
-    // }
-    
-
-    // private void OnDrawGizmos()
-    // {
-    //     try
-    //     {
-    //         Gizmos.color = Color.red;
-    //
-    //         Vector3 checkPos = GetGroundPos();
-    //
-    //         Gizmos.DrawSphere(checkPos, _capsuleCollider.radius - RADIUS_TOLERANCE);
-    //     }
-    //     catch {}
-    //
-    // }
 }

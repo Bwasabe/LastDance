@@ -8,7 +8,7 @@ public class PlayerMove : PlayerComponentBase
 
     [SerializeField]
     private float _lerpSmooth = 15f;
-    
+
     public bool IsFreeze{ get; set; }
     
     private Rigidbody _rb;
@@ -83,12 +83,10 @@ public class PlayerMove : PlayerComponentBase
         Vector3 right = new Vector3(forward.z, 0f, -forward.x);
 
         Vector3 dir = (right * input.x + forward * input.z).normalized;
-
-        if(_groundController.GroundValue)
+        
+        if(_groundController.IsOnSlope)
         {
             dir = Vector3.ProjectOnPlane(dir, _groundController.GroundInfo.normal);
-            
-            Debug.DrawLine(transform.position, transform.position + dir, Color.magenta, 1f);
             
             _moveAmount = Vector3.Lerp(_moveAmount, dir * _speed, Time.deltaTime * _lerpSmooth) * TimeManager.PlayerTimeScale;
             
@@ -97,7 +95,6 @@ public class PlayerMove : PlayerComponentBase
         }
         else
         {
-            
             _moveAmount = Vector3.Lerp(_moveAmount, dir * _speed, Time.deltaTime * _lerpSmooth) * TimeManager.PlayerTimeScale;
             _moveAmount.y = _rb.velocity.y;
         }
