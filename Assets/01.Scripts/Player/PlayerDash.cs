@@ -46,7 +46,7 @@ public class PlayerDash : PlayerComponentBase
 
     private PlayerMove _playerMove;
     private PlayerJump _playerJump;
-    
+    private PlayerGroundController _groundController;
 
     private Vignette _vignette;
     private ChromaticAberration _chromaticAberration;
@@ -61,6 +61,7 @@ public class PlayerDash : PlayerComponentBase
 
         _rb = transform.GetComponentCache<Rigidbody>();
 
+        _groundController = transform.GetComponentCache<PlayerGroundController>();
         _playerMove = transform.GetComponentCache<PlayerMove>();
         _playerJump = transform.GetComponentCache<PlayerJump>();
 
@@ -75,11 +76,9 @@ public class PlayerDash : PlayerComponentBase
 
     private void Update()
     {
-        if(_playerStateController.HasState(Player_State.ReadyToSlide)) return;
-        
         Cooldown();
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !_groundController.IsGround)
         {
             Dash();
         }
@@ -132,8 +131,8 @@ public class PlayerDash : PlayerComponentBase
         
         _chromaticAberration.intensity.Override(1f);
         
-
         ChangeVolume();
+
         
         _dashTimer = 0f;
         _currentDashCount--;

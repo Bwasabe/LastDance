@@ -35,6 +35,14 @@ public static class Define
         }
     }
     
+    public static Vector3 GetInput()
+    {
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
+        
+        return new Vector3(horizontal, 0f, vertical).normalized;
+    }
+    
     public static Vector2 MousePos => MainCam.ScreenToWorldPoint(Input.mousePosition);
 
     public static T GetRandomEnum<T>(int startPos = 0,int? length = null ) where T : System.Enum
