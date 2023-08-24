@@ -25203,6 +25203,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2054519117}
   - component: {fileID: 2054519118}
+  - component: {fileID: 2054519119}
   m_Layer: 0
   m_Name: Cyberkatana
   m_TagString: Untagged
@@ -25257,6 +25258,21 @@ MonoBehaviour:
   fontColor: {r: 0, g: 0, b: 0, a: 1}
   _nameFont: {fileID: 0}
   _nameAlignment: 0
+--- !u!114 &2054519119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2054519116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6215102b646444ea94e96c53f0ee9907, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <EquipPos>k__BackingField: {x: -0.382, y: 0.0822, z: 0.0174}
+  <EquipRotation>k__BackingField: {x: 237.712, y: 180, z: 0}
+  <EquipScale>k__BackingField: {x: 0.22, y: 0.22, z: 0.22}
 --- !u!1 &2058428662
 GameObject:
   m_ObjectHideFlags: 0
