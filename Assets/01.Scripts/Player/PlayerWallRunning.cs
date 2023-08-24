@@ -218,8 +218,11 @@ public class PlayerWallRunning : PlayerComponentBase
     
     private void WallRunning()
     {
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
+        Vector3 input = Define.GetInput();
+        
+        float horizontal = input.x;
+        float vertical = input.z;
+
 
         Vector3 wallForwardCross = Vector3.Cross(-_cameraMovement.transform.forward, _results[0].normal);
         Vector3 wallUpMoveDir = Vector3.Cross(wallForwardCross, _results[0].normal);

@@ -11,11 +11,6 @@ public class PlayerSliding : PlayerComponentBase
     private AnimationCurve _slidingCurve;
 
     [SerializeField]
-    private float _camHeight = 0.5f;
-    [SerializeField]
-    private float _camMoveDuration = 0.8f;
-
-    [SerializeField]
     private float _impulseForce = 5f;
 
     [SerializeField]
@@ -28,16 +23,12 @@ public class PlayerSliding : PlayerComponentBase
     private Rigidbody _rb;
     private PlayerGroundController _groundController;
     private PlayerMove _playerMove;
-
-    private Transform _camTransform;
-
-    private Tweener _camMoveTweener;
-
+    
+    
     private float _timer;
-
-    private float _camOriginHeight;
-
+    
     private float _gravity;
+    
 
     protected override void Start()
     {
@@ -45,10 +36,6 @@ public class PlayerSliding : PlayerComponentBase
         _rb = transform.GetComponentCache<Rigidbody>();
         _playerMove = transform.GetComponentCache<PlayerMove>();
         _groundController = transform.GetComponentCache<PlayerGroundController>();
-
-        _camTransform = Define.MainCam.transform;
-
-        _camOriginHeight = _camTransform.localPosition.y;
     }
 
     private void Update()
@@ -93,9 +80,6 @@ public class PlayerSliding : PlayerComponentBase
 
     private void StartSliding()
     {
-        _camMoveTweener.Kill();
-        _camMoveTweener = _camTransform.DOLocalMoveY(_camHeight, _camMoveDuration).SetEase(Ease.InQuart);
-
         _gravity = _rb.velocity.y;
 
         _rb.AddForce(_playerMove.MoveDir * _impulseForce, ForceMode.Impulse);
@@ -107,9 +91,6 @@ public class PlayerSliding : PlayerComponentBase
 
     private void EndSliding()
     {
-        _camMoveTweener.Kill();
-        _camMoveTweener = _camTransform.DOLocalMoveY(_camOriginHeight, _camMoveDuration).SetEase(Ease.Linear);
-        
         _playerMove.IsFreeze = false;
         
         if(!_playerStateController.HasState(Player_State.Jump))

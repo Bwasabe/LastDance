@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerMove : PlayerComponentBase
 {
     [SerializeField]
-    private float _speed = 8;
+    private float _moveSpeed = 8;
 
     [SerializeField]
     private float _groundSmooth = 13f;
@@ -24,6 +24,8 @@ public class PlayerMove : PlayerComponentBase
     private Vector3 _moveAmount;
 
     public Vector3 MoveDir { get; private set; }
+    
+    public float Speed{ get; set; }
 
     protected override void Start()
     {
@@ -33,6 +35,8 @@ public class PlayerMove : PlayerComponentBase
         
         _rb = transform.GetComponentCache<Rigidbody>();
         _groundController = transform.GetComponentCache<PlayerGroundController>();
+        
+        ResetSpeed();
     }
 
     private void Update()
@@ -45,6 +49,11 @@ public class PlayerMove : PlayerComponentBase
          float smooth = GetSmooth();
          
         Move(moveInput, smooth);
+    }
+
+    public void ResetSpeed()
+    {
+        Speed = _moveSpeed;
     }
 
     private float GetSmooth()
@@ -85,6 +94,7 @@ public class PlayerMove : PlayerComponentBase
     /// </param>
     private void Move(in Vector3 input, in float lerpSmooth)
     {
+        OnGUIManager.Instance.SetGUI("Speed", Speed);
         Vector3 forward = _camTransform.forward;
         forward.y = 0f;
 
@@ -96,7 +106,7 @@ public class PlayerMove : PlayerComponentBase
         {
             MoveDir = Vector3.ProjectOnPlane(MoveDir, _groundController.GroundInfo.normal);
             
-            _moveAmount = Vector3.Lerp(_rb.velocity, MoveDir * _speed, Time.deltaTime * lerpSmooth) * TimeManager.PlayerTimeScale;
+            _moveAmount = Vector3.Lerp(_rb.velocity, MoveDir * Speed, Time.deltaTime * lerpSmooth) * TimeManager.PlayerTimeScale;
 
             if(_playerStateController.HasState(Player_State.Jump))
             {
@@ -111,7 +121,7 @@ public class PlayerMove : PlayerComponentBase
         }
         else
         {
-            _moveAmount = Vector3.Lerp(_moveAmount, MoveDir * _speed, Time.deltaTime * lerpSmooth) * TimeManager.PlayerTimeScale;
+            _moveAmount = Vector3.Lerp(_moveAmount, MoveDir * Speed, Time.deltaTime * lerpSmooth) * TimeManager.PlayerTimeScale;
             _moveAmount.y = _rb.velocity.y;
             
             _rb.VelocityToward(_moveAmount, _towardSmooth);

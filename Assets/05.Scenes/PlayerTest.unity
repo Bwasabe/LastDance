@@ -24629,6 +24629,8 @@ GameObject:
   - component: {fileID: 1890907093}
   - component: {fileID: 1890907094}
   - component: {fileID: 1890907095}
+  - component: {fileID: 1890907096}
+  - component: {fileID: 1890907097}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -24674,6 +24676,8 @@ MonoBehaviour:
   - {fileID: 1890907093}
   - {fileID: 1890907094}
   - {fileID: 1890907095}
+  - {fileID: 1890907096}
+  - {fileID: 1890907097}
   - {fileID: 275783358}
   - {fileID: 275783357}
   - {fileID: 275783356}
@@ -24681,6 +24685,7 @@ MonoBehaviour:
   - {fileID: 275783359}
   - {fileID: 1189025986}
   - {fileID: 247317299}
+  - {fileID: 2054519119}
   - {fileID: 1394951252}
   - {fileID: 1394951251}
   - {fileID: 1058641110}
@@ -24735,7 +24740,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33e64e8e659e1cd46b5674bffaafc19e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 12
+  _moveSpeed: 11
   _groundSmooth: 13
   _airSmooth: 6
   _towardSmooth: 1
@@ -24751,7 +24756,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3393d222fb36f824cb5b14d3d4d0a46d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _jumpForce: 8
+  _jumpForce: 7
   _gravityScale: 3
   _jumpMaxCount: 2
 --- !u!114 &1890907092
@@ -24812,7 +24817,7 @@ MonoBehaviour:
   _groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  _wallRunSpeed: 8
+  _wallRunSpeed: 13
   _wallCheckDistance: 0.5
   _lerpSmooth: 12
   _wallRotationDuration: 0.2
@@ -24852,31 +24857,61 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.7090865
-      inSlope: 1.5287321
-      outSlope: 1.5287321
+      value: 0.5
+      inSlope: 4.9361863
+      outSlope: 4.9361863
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.14098758
+      outWeight: 0.029379465
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: -3.337153
-      outSlope: -3.337153
+      inSlope: 2.4504297
+      outSlope: 2.4504297
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.028600633
+      inWeight: 0.040468775
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _camHeight: 0.5
-  _camMoveDuration: 0.25
   _impulseForce: 5
-  _slidingForce: 60
+  _slidingForce: 50
   _slopeForce: 20
-  _slidingDuration: 0.4
+  _slidingDuration: 0.7
+--- !u!114 &1890907096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1890907085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a06ecd62ff1f69c4286c36e09250dcfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pickupRadius: 3
+  _itemLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  _handTransform: {fileID: 2093989831}
+--- !u!114 &1890907097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1890907085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92832dda165a9b248a2c26fed282f0cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <CrouchSpeed>k__BackingField: 3
+  _camHeight: 0.7
+  _camMoveDuration: 0.25
 --- !u!1 &1943625723
 GameObject:
   m_ObjectHideFlags: 0

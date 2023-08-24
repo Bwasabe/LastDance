@@ -9,7 +9,7 @@ public static class RigidbodyExtensions
         rigidbody.velocity = velocity;
     }
     
-    public static void VelocityToward(this Rigidbody rigidbody, Vector3 toward, float smooth)
+    public static void VelocityToward(this Rigidbody rigidbody, Vector3 toward, float smooth = 1f)
     {
         OnGUIManager.Instance.SetGUI("TowardMag", toward.magnitude);
         OnGUIManager.Instance.SetGUI("RBMag", rigidbody.velocity.magnitude);
