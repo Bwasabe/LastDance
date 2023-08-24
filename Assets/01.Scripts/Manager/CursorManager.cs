@@ -12,8 +12,8 @@ public class CursorManager : MonoBehaviour
     private CursorLockMode _cursorLockMode = CursorLockMode.Locked;
     private void Start()
     {
-        Cursor.visible = _visible;
-        Cursor.lockState = _cursorLockMode;
+/*        Cursor.visible = _visible;
+        Cursor.lockState = _cursorLockMode;*/
     }
 
     [ContextMenu("SetCursorVisible")]
