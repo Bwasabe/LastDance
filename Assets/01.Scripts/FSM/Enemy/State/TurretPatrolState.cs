@@ -31,20 +31,13 @@ public class TurretPatrolState : TurretBasicState
                 stateMachine.ChangeState(stateMachine.ShootState);
             }
         }
-
-        // test용 죽음
-        if(Input.GetKeyDown(KeyCode.M))
-        {
-            stateMachine.Turret.StopCoroutine(currentCoroutine);
-            stateMachine.ChangeState(stateMachine.DeathState);
-        }
     }
 
     public override void Exit()
     {
         base.Exit();
 
-
+        stateMachine.Turret.StopCoroutine(currentCoroutine);
     }
 
     public override void PhysicsUpdate()
