@@ -55,6 +55,11 @@ public class PlayerDash : PlayerComponentBase
     private CinemachineVirtualCamera _vCam;
 
     private Vector3 _prevVelocity;
+    private Color _originColor;
+    private float _originVignetteIntensity;
+    private float _originBlurIntensity;
+    private float _originChromaticIntensity;
+    
     protected override void Start()
     {
         base.Start();
@@ -123,6 +128,10 @@ public class PlayerDash : PlayerComponentBase
             value => _vCam.m_Lens.FieldOfView = value,
             _dashFOV, _dashDuration).SetLoops(2, LoopType.Yoyo);
 
+        _originColor = _vignette.color.value;
+        _originVignetteIntensity = _vignette.intensity.value;
+        _originBlurIntensity = _motionBlur.intensity.value;
+        _originChromaticIntensity = _chromaticAberration.intensity.value;
 
         _vignette.color.Override(_dashColor);
         _vignette.intensity.Override(0.4f);
@@ -174,12 +183,21 @@ public class PlayerDash : PlayerComponentBase
 
     private void ChangeVolume()
     {
-        _vignette.DOIntensity(0f, _dashDuration).SetEase(Ease.InBack);
+        _vignette.DOIntensity(0f, _dashDuration).SetEase(Ease.InBack).OnComplete(ReturnToOrigin);
 
         _motionBlur.DOIntensity(0f, _dashDuration).SetEase(Ease.InBack);
         
         _chromaticAberration.DOIntensity(0f, _dashDuration).SetEase(Ease.InBack);
     }
+    private void ReturnToOrigin()
+    {
+        _vignette.color.Override(_originColor);
+        _vignette.intensity.Override(_originVignetteIntensity);
+        
+        _motionBlur.intensity.Override(_originBlurIntensity);
+        
+        _chromaticAberration.intensity.Override(_originChromaticIntensity);
+    }
 
-    
+
 }

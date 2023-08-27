@@ -35,6 +35,22 @@ public static class VolumeTweenExtension
             endValue, duration);
     }
     
+    public static TweenerCore<Color, Color, ColorOptions> DOColor(this ColorAdjustments colorAdjustments, Color endValue, float duration)
+    {
+        return DOTween.To(
+            () => colorAdjustments.colorFilter.value,
+            value => colorAdjustments.colorFilter.Override(value),
+            endValue, duration);
+    }
+    
+    public static TweenerCore<float, float, FloatOptions> DOContrast(this ColorAdjustments colorAdjustments, float endValue, float duration)
+    {
+        return DOTween.To(
+            () => colorAdjustments.contrast.value,
+            value => colorAdjustments.contrast.Override(value),
+            endValue, duration);
+    }
+    
     public static TweenerCore<float, float, FloatOptions> DOIntensity(this LensDistortion lensDistortion, float endValue, float duration)
     {
         return DOTween.To(
