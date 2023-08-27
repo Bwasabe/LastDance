@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using DG.Tweening;
 using UnityEngine;
 
@@ -12,9 +13,6 @@ public class PlayerWallRunning : PlayerComponentBase
         ReadyToJump,
         Jumping,
     }
-
-    [SerializeField]
-    private LayerMask _groundLayer;
 
     [SerializeField]
     private float _wallRunSpeed = 8f;
@@ -30,6 +28,8 @@ public class PlayerWallRunning : PlayerComponentBase
 
     [SerializeField]
     private float _camRotationMultiplier = 30f;
+
+    public bool IsLookWall{ get; private set; }= false;
 
     private readonly List<RaycastHit> _results = new(8);
 
@@ -78,7 +78,7 @@ public class PlayerWallRunning : PlayerComponentBase
                 Vector3 direction = Define.AngleToVector3(angle);
                 Ray ray = new(center, direction);
 
-                if(Physics.Raycast(ray, out RaycastHit hit, _wallCheckDistance, _groundLayer))
+                if(Physics.Raycast(ray, out RaycastHit hit, _wallCheckDistance, _groundController.GroundLayer.value))
                 {
                     _results.Add(hit);
                 }
@@ -91,7 +91,7 @@ public class PlayerWallRunning : PlayerComponentBase
                 Vector3 direction = Define.AngleToVector3(angle);
                 Ray ray = new(center, direction);
 
-                if(Physics.Raycast(ray, out RaycastHit hit, _wallCheckDistance, _groundLayer))
+                if(Physics.Raycast(ray, out RaycastHit hit, _wallCheckDistance, _groundController.GroundLayer.value))
                 {
                     _results.Add(hit);
                 }
@@ -144,7 +144,6 @@ public class PlayerWallRunning : PlayerComponentBase
     }
     private void OnStateNone()
     {
-
         CheckWallState();
 
         if(_results.Count == 0)
@@ -157,12 +156,15 @@ public class PlayerWallRunning : PlayerComponentBase
 
             return;
         }
-
+        
+        // 점프하면서 올라가는 중엔 벽타기 안되도록
+        if(_playerStateController.HasState(Player_State.Jump) && _rb.velocity.y > 0.5f && !_playerStateController.HasState(Player_State.WallRunning)) return;
+        
         if(Input.GetKey(KeyCode.Space))
         {
             if(!_playerStateController.HasState(Player_State.WallRunning))
                 WallRunningStart();
-
+            
             WallRunning();
         }
         else if(_playerStateController.HasState(Player_State.WallRunning))
@@ -218,6 +220,27 @@ public class PlayerWallRunning : PlayerComponentBase
     
     private void WallRunning()
     {
+        // forward와 닿은 벽의 normal사이의 각도를 구한 후, 현재 y 와 구한 각도 사이 값을 구하고, 그 값을 90으로 나눈 것에 Multiplier를 곱함
+        float signedAngle = Vector3.SignedAngle(Vector3.forward, _results[0].normal, Vector3.up);
+        float deltaAngle = Mathf.DeltaAngle(_cameraMovement.transform.eulerAngles.y, signedAngle);
+        float rotationAngle = -deltaAngle / 90f * _camRotationMultiplier;
+        
+        OnGUIManager.Instance.SetGUI("deltaAngle", deltaAngle);
+
+        IsLookWall = deltaAngle is < -150 or > 150; 
+        
+        // 고개가 돌아가도 괜찮은 각도
+        if(IsLookWall)
+        {
+            _cameraMovement.RotationZ = Mathf.SmoothDamp(_cameraMovement.RotationZ, 0f, ref _dampVelocity, _wallRotationDuration);
+        }
+        else
+        {
+            _cameraMovement.RotationZ = Mathf.SmoothDamp(_cameraMovement.RotationZ, rotationAngle, ref _dampVelocity, _wallRotationDuration);
+        }
+        
+        
+        
         Vector3 input = Define.GetInput();
         
         float horizontal = input.x;
@@ -231,25 +254,7 @@ public class PlayerWallRunning : PlayerComponentBase
         Vector3 wallRightMoveDir = Vector3.Cross(wallRightCross, _results[0].normal);
 
         Vector3 dir = (wallUpMoveDir * vertical + wallRightMoveDir * horizontal).normalized;
-
-        // forward와 닿은 벽의 normal사이의 각도를 구한 후, 현재 y 와 구한 각도 사이 값을 구하고, 그 값을 90으로 나눈 것에 Multiplier를 곱함
-        float signedAngle = Vector3.SignedAngle(Vector3.forward, _results[0].normal, Vector3.up);
-        float deltaAngle = Mathf.DeltaAngle(_cameraMovement.transform.eulerAngles.y, signedAngle);
-        float rotationAngle = -deltaAngle / 90f * _camRotationMultiplier;
-        
-        OnGUIManager.Instance.SetGUI("deltaAngle", deltaAngle);
-        
-        // 고개가 돌아가도 괜찮은 각도
-        if(deltaAngle >= -150 && deltaAngle <= 150)
-        {
-            _cameraMovement.RotationZ = Mathf.SmoothDamp(_cameraMovement.RotationZ, rotationAngle, ref _dampVelocity, _wallRotationDuration);
-        }
-        else
-        {
-            _cameraMovement.RotationZ = Mathf.SmoothDamp(_cameraMovement.RotationZ, 0f, ref _dampVelocity, _wallRotationDuration);
-        }
-
-
+            
         _moveAmount = Vector3.Lerp(_moveAmount, dir * _wallRunSpeed, Time.deltaTime * _lerpSmooth) * TimeManager.PlayerTimeScale;
 
         _rb.velocity = _moveAmount;

@@ -14,6 +14,8 @@ public class PlayerGroundController : MonoBehaviour
 
     [SerializeField]
     private LayerMask _groundLayer;
+
+    public LayerMask GroundLayer => _groundLayer;
     
     public bool IsGround{ get; private set; }
 

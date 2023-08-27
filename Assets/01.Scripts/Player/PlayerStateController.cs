@@ -14,12 +14,23 @@ public enum Player_State
     Invincible = 1 << 5,
     WallRunning = 1 << 6,
     Sliding = 1 << 7,
+    ReadyToClimb = 1 << 8,
+    Climbing = 1 << 9,
 }
 
 public class PlayerStateController : MonoBehaviour
 {
-
+    
     private Player_State _currentState;
+    
+#if UNITY_EDITOR
+    
+    private void Update()
+    {
+        OnGUIManager.Instance.SetGUI("State : ", _currentState);
+    }
+    
+#endif
 
     public void AddState(Player_State state)
     {

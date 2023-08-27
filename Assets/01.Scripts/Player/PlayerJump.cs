@@ -44,6 +44,7 @@ public class PlayerJump : PlayerComponentBase
 
     private void Update()
     {
+        OnGUIManager.Instance.SetGUI("CheckState", _checkState);
         if(_playerStateController.HasState(Player_State.Jump))
             GroundCheck();
 
