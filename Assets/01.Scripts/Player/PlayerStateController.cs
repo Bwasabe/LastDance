@@ -14,8 +14,8 @@ public enum Player_State
     Invincible = 1 << 5,
     WallRunning = 1 << 6,
     Sliding = 1 << 7,
-    ReadyToClimb = 1 << 8,
-    Climbing = 1 << 9,
+    Climbing = 1 << 8,
+    Slow = 1 << 9,
 }
 
 public class PlayerStateController : MonoBehaviour
