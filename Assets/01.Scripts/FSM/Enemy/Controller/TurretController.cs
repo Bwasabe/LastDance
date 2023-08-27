@@ -26,6 +26,7 @@ public class TurretController : MonoBehaviour
     [SerializeField]
     private GameObject bullet;
 
+    private bool death;
     private void Awake()
     {
         stateMachine = new TurretStateMachine(this);
@@ -77,4 +78,12 @@ public class TurretController : MonoBehaviour
         Instantiate(bullet, pos, rot);
     }
 
+    public void Death()
+    {
+        if (!death)
+        {
+            stateMachine.ChangeState(stateMachine.DeathState);
+            death = true;
+        }
+    }
 }

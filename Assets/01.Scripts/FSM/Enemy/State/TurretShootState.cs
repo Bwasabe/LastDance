@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TurretShootState : TurretBasicState
 {
+    IEnumerator currentCoroutine = null;
+
     public TurretShootState(TurretStateMachine turretStateMachine) : base(turretStateMachine)
     {
     }
@@ -12,7 +14,14 @@ public class TurretShootState : TurretBasicState
     {
         base.Enter();
 
+        currentCoroutine = Shoot();
         turret.StartCoroutine(Shoot());
+    }
+
+    public override void Exit()
+    {
+        if(currentCoroutine != null)
+            stateMachine.Turret.StopCoroutine(currentCoroutine);
     }
 
     private IEnumerator Shoot()
@@ -36,7 +45,10 @@ public class TurretShootState : TurretBasicState
         if (stateMachine.Turret.LaserCheck != null)
         {
             if(stateMachine.Turret.LaserCheck.CurrentState())
-                turret.StartCoroutine(Shoot());
+            {
+                currentCoroutine = Shoot();
+                turret.StartCoroutine(currentCoroutine);
+            }
             else
                 stateMachine.ChangeState(stateMachine.PatrolState);
         }
