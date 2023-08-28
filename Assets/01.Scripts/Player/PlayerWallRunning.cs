@@ -188,15 +188,15 @@ public class PlayerWallRunning : PlayerComponentBase
     private void WallJump()
     {
         // Debug.Log("WallJump");
-        // IEnumerator Task()
-        // {
-        //     yield return Yields.WaitForEndOfFrame;
-        //     _playerJump.CurrentJumpCount = 0;
-        // }
+        IEnumerator Task()
+        {
+            yield return Yields.WaitForEndOfFrame;
+            _playerJump.CurrentJumpCount = 0;
+        }
 
         _playerJump.Jump();
 
-        // StartCoroutine(Task());
+        StartCoroutine(Task());
         _wallJumpState = WallJumpState.Jumping;
         WallRunningEnd();
     }
@@ -209,7 +209,7 @@ public class PlayerWallRunning : PlayerComponentBase
             _camRotateTweener.Kill();
         }
 
-        // _playerJump.CurrentJumpCount = 0;
+        _playerJump.CurrentJumpCount = 0;
         
         _rb.SetVelocityY(0f);
 

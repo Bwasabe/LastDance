@@ -14,7 +14,6 @@ namespace Util.PoolManager
         {
             Application.quitting += () => { OnExiting?.Invoke(); };
             
-            
             SceneManager.sceneUnloaded += _ => { OnSceneUnloaded?.Invoke(); };
         }
 

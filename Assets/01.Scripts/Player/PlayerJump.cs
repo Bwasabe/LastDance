@@ -28,7 +28,7 @@ public class PlayerJump : PlayerComponentBase
 
     private PlayerGroundController _groundController;
 
-    private int _currentJumpCount;
+    public int CurrentJumpCount{ get; set; }
 
     private float _prevVelocityY;
 
@@ -51,20 +51,20 @@ public class PlayerJump : PlayerComponentBase
         // 점프키를 눌렀을 경우
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            if(_currentJumpCount < _jumpMaxCount)
+            if(CurrentJumpCount < _jumpMaxCount)
             {
-                bool isFirstJump = _currentJumpCount == 0;
+                bool isFirstJump = CurrentJumpCount == 0;
 
                 // 처음 하는 점프에서 땅이 아닐경우 한번만 점프하도록
                 if(isFirstJump)
                 {
                     if(_groundController.IsGround)
-                        _currentJumpCount++;
+                        CurrentJumpCount++;
                     else
-                        _currentJumpCount += 2;
+                        CurrentJumpCount += 2;
                 }
                 else
-                    _currentJumpCount++;
+                    CurrentJumpCount++;
 
                 Jump();
             }
@@ -95,7 +95,7 @@ public class PlayerJump : PlayerComponentBase
     
     private void OnGround()
     {
-        _currentJumpCount = 0;
+        CurrentJumpCount = 0;
 
         _rb.SetVelocityY(0f);
 

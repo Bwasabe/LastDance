@@ -8,15 +8,15 @@ public class PlayerWallClimbing : PlayerComponentBase
 {
     // Climb중엔 Jump, Move, WallRunning, Crouch, Dash, Sliding Enable 꺼버리기
     [SerializeField]
-    private Vector3 _offset = new Vector3(0f, 0.2f, 1f);
+    private Vector3 _offset = new Vector3(0f, 1f, 1f);
     [SerializeField]
     private float _checkDistance = 1f;
     [SerializeField]
-    private float _climbUpDuration = 0.4f;
+    private float _climbUpDuration = .1f;
     [SerializeField]
     private float _climbEndDuration = 0.1f;
     [SerializeField]
-    private float _climbPosYOffset = 0.1f;
+    private float _climbPosYOffset = 0.25f;
 
     private PlayerMove _playerMove;
     private PlayerJump _playerJump;
