@@ -15437,7 +15437,6 @@ GameObject:
   - component: {fileID: 370375117}
   - component: {fileID: 370375116}
   - component: {fileID: 370375115}
-  - component: {fileID: 370375114}
   - component: {fileID: 370375113}
   m_Layer: 0
   m_Name: Main Camera
@@ -15478,40 +15477,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sensitiveness: 3
   _rotateClamp: {x: -89, y: 89}
---- !u!114 &370375114
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 370375111}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShowDebugText: 0
-  m_ShowCameraFrustum: 1
-  m_IgnoreTimeScale: 0
-  m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 2
-  m_BlendUpdateMethod: 1
-  m_DefaultBlend:
-    m_Style: 1
-    m_Time: 2
-    m_CustomCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  m_CustomBlends: {fileID: 0}
-  m_CameraCutEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_CameraActivatedEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &370375115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16674,7 +16639,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: c80107cf2e36f8343b0e51d5306faf5f, type: 3}
   m_Controller: {fileID: 9100000, guid: b377e773ca94c8044a5a771c103fe298, type: 2}
-  m_CullingMode: 1
+  m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -17093,7 +17058,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &727794854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17363,7 +17328,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <CrouchSpeed>k__BackingField: 3
   _camHeight: 0.7
-  _camMoveDuration: 0.25
+  _camMoveDuration: 0.15
 --- !u!114 &811575409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17408,19 +17373,19 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: 2.4504297
-      outSlope: 2.4504297
+      inSlope: 0.02831382
+      outSlope: 0.02831382
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.040468775
+      inWeight: 0.30727178
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   _impulseForce: 5
-  _slidingForce: 50
-  _slopeForce: 20
-  _slidingDuration: 0.7
+  _slidingForce: 20
+  _slopeForce: 10
+  _slidingDuration: 0.4
 --- !u!114 &811575411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17450,7 +17415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a28db64695499a4a864a12c474c62e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _wallRunSpeed: 13
+  _wallRunSpeed: 11
   _wallCheckDistance: 0.5
   _lerpSmooth: 12
   _wallRotationDuration: 0.2
@@ -17528,8 +17493,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 11
   _groundSmooth: 13
-  _airSmooth: 6
-  _towardSmooth: 1
+  _airSmooth: 1
+  _towardSmooth: 50
 --- !u!114 &811575416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17571,7 +17536,6 @@ MonoBehaviour:
   - {fileID: 370375117}
   - {fileID: 370375116}
   - {fileID: 370375115}
-  - {fileID: 370375114}
   - {fileID: 370375113}
   - {fileID: 613624170}
   - {fileID: 613624169}

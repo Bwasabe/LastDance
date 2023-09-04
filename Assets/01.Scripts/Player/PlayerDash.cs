@@ -76,7 +76,8 @@ public class PlayerDash : PlayerComponentBase
         GlobalVolume.Instance.GetProfile(out _chromaticAberration);
         GlobalVolume.Instance.GetProfile(out _motionBlur);
 
-        _camFOV = _vCam.m_Lens.FieldOfView;
+        // _camFOV = _vCam.m_Lens.FieldOfView;
+        _camFOV = 70;
     }
 
     private void Update()
@@ -183,11 +184,11 @@ public class PlayerDash : PlayerComponentBase
 
     private void ChangeVolume()
     {
-        _vignette.DOIntensity(0f, _dashDuration).SetEase(Ease.InBack).OnComplete(ReturnToOrigin);
+        _vignette.intensity.DOFloat(0f, _dashDuration).SetEase(Ease.InBack).OnComplete(ReturnToOrigin);
 
-        _motionBlur.DOIntensity(0f, _dashDuration).SetEase(Ease.InBack);
+        _motionBlur.intensity.DOFloat(0f, _dashDuration).SetEase(Ease.InBack);
         
-        _chromaticAberration.DOIntensity(0f, _dashDuration).SetEase(Ease.InBack);
+        _chromaticAberration.intensity.DOFloat(0f, _dashDuration).SetEase(Ease.InBack);
     }
     private void ReturnToOrigin()
     {

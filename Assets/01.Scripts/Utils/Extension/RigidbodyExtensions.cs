@@ -27,7 +27,7 @@ public static class RigidbodyExtensions
             
             // 현재 Velocity를 dir에smooth를 곱한 만큼 더해준다
             Vector3 velocity = rigidbody.velocity;
-            velocity += dir * smooth;
+            velocity += smooth * Time.deltaTime *  dir;
             rigidbody.velocity = velocity;
         }
         

@@ -47,11 +47,8 @@ public class PlayerSliding : PlayerComponentBase
 
         if(_playerStateController.HasState(Player_State.Sliding))
         {
-            if(Input.GetKeyUp(KeyCode.LeftShift))
-            {
-                EndSliding();
-            }
-            else if(_timer >= _slidingDuration && !_groundController.IsOnSlope)
+            // Shift를 때거나, timer가 다 되면서 Slope가 아니거나, 땅에서 떨어진 경우
+            if(Input.GetKeyUp(KeyCode.LeftShift) || _timer >= _slidingDuration && !_groundController.IsOnSlope || !_groundController.IsGround)
             {
                 EndSliding();
             }

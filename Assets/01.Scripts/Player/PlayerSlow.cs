@@ -118,20 +118,20 @@ public class PlayerSlow : PlayerComponentBase
 
         _vignette.color.Override(_slowVignetteColor);
         
-        _colorAdjustments.DOContrast(50f, _animDuration);
-        _vignette.DOIntensity(0.5f, _animDuration);//.OnComplete(OnParticle);
-        _motionBlur.DOIntensity(1f, _animDuration);
-        _chromaticAberration.DOIntensity(1f, _animDuration);
-        _colorAdjustments.DOColor(_slowColor, _animDuration);
+        _colorAdjustments.contrast.DOFloat(50f, _animDuration);
+        _vignette.intensity.DOFloat(0.5f, _animDuration);//.OnComplete(OnParticle);
+        _motionBlur.intensity.DOFloat(1f, _animDuration);
+        _chromaticAberration.intensity.DOFloat(1f, _animDuration);
+        _colorAdjustments.colorFilter.DOColor(_slowColor, _animDuration);
     }
     
     private void EndChangeVolume()
     {
-        _colorAdjustments.DOContrast(_originContrast, _animDuration);
-        _motionBlur.DOIntensity(_originBlurIntensity, _animDuration);
-        _vignette.DOIntensity(_originVignetteIntensity, _animDuration).OnComplete(ReturnVolume);
-        _chromaticAberration.DOIntensity(_originChromaticIntensity, _animDuration);
-        _colorAdjustments.DOColor(_originColor, _animDuration);
+        _colorAdjustments.contrast.DOFloat(_originContrast, _animDuration);
+        _motionBlur.intensity.DOFloat(_originBlurIntensity, _animDuration);
+        _vignette.intensity.DOFloat(_originVignetteIntensity, _animDuration).OnComplete(ReturnVolume);
+        _chromaticAberration.intensity.DOFloat(_originChromaticIntensity, _animDuration);
+        _colorAdjustments.colorFilter.DOColor(_originColor, _animDuration);
     }
     private void ReturnVolume()
     {
