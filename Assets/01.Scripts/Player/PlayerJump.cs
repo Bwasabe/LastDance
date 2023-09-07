@@ -89,7 +89,8 @@ public class PlayerJump : PlayerComponentBase
         if(RemoveGravity) return;
 
         // 중력 적용
-        _rb.AddForce(Physics.gravity.y * _gravityScale * TimeManager.PlayerTimeScale * Vector3.up, ForceMode.Force);
+        if(_groundController.IsOnSlope && Define.GetInput() == Vector3.zero) return;
+        _rb.AddForce(_gravityScale * TimeManager.PlayerTimeScale * Physics.gravity, ForceMode.Force);
     }
 
     

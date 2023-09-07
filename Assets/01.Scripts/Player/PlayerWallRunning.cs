@@ -43,7 +43,7 @@ public class PlayerWallRunning : PlayerComponentBase
     private PlayerGroundController _groundController;
     private CameraMovement _cameraMovement;
 
-    private Vector3 _moveAmount;
+    private Vector3 _moveAmount;    
 
     private float _dampVelocity;
 
