@@ -8,35 +8,31 @@ public class PlayerMove : PlayerComponentBase
     private float _moveSpeed = 8;
 
     [SerializeField]
-    private float _groundSmooth = 13f;
-
-    [SerializeField]
-    private float _airSmooth = 50f;
-
-    [SerializeField]
-    private float _towardSmooth = 11f;
+    private float _lerpSmooth = 11f;
 
     public bool IsFreeze{ get; set; }
-    
+
+    private bool _isFirstEnterSlope;
+
     private Rigidbody _rb;
     private Transform _camTransform;
     private PlayerGroundController _groundController;
 
     private Vector3 _moveAmount;
 
-    public Vector3 MoveDir { get; private set; }
-    
+    public Vector3 MoveDir{ get; private set; }
+
     public float Speed{ get; set; }
 
     protected override void Start()
     {
         base.Start();
-        
+
         _camTransform = Define.MainCam.transform;
-        
+
         _rb = transform.GetComponentCache<Rigidbody>();
         _groundController = transform.GetComponentCache<PlayerGroundController>();
-        
+
         ResetSpeed();
     }
 
@@ -44,12 +40,12 @@ public class PlayerMove : PlayerComponentBase
     {
         if(IsFreeze) return;
 
-         Vector3 moveInput = Define.GetInput();
-         SetState(moveInput);
+        Vector3 moveInput = Define.GetInput();
+        SetState(moveInput);
 
         Move(moveInput);
     }
-    
+
     [ContextMenu("ResetSpeed")]
     public void ResetSpeed()
     {
@@ -65,7 +61,7 @@ public class PlayerMove : PlayerComponentBase
     /// </param>
     private void SetState(in Vector3 dir)
     {
-        if (dir != Vector3.zero)
+        if(dir != Vector3.zero)
         {
             _playerStateController.AddState(Player_State.Move);
             _playerStateController.RemoveState(Player_State.Idle);
@@ -89,66 +85,73 @@ public class PlayerMove : PlayerComponentBase
         forward.y = 0f;
 
         Vector3 right = new Vector3(forward.z, 0f, -forward.x);
-        
+
+        // if(_groundController.IsGround || input != Vector3.zero)
         MoveDir = (right * input.x + forward * input.z).normalized;
+
         Vector3 velocity = _rb.velocity;
 
 
         if(!_groundController.IsGround)
         {
-            if(_rb.velocity.magnitude > Speed)
+            if(_rb.velocity.magnitude > Speed || input == Vector3.zero)
             {
                 Vector3 velocityWithoutY = new Vector3(velocity.x, 0f, velocity.z).normalized;
+                    
                 float dot = Vector3.Dot(MoveDir, velocityWithoutY);
                 if(input == Vector3.zero)
                     dot = 1f;
-                
-                OnGUIManager.Instance.SetGUI("Dot", dot);
-                // 외적에 따른 속도
-                Vector3 dotSpeed = Vector3.Lerp(MoveDir * Speed , velocity, (dot + 1) * 0.5f);
-                OnGUIManager.Instance.SetGUI("dotSpeed", dotSpeed); 
 
-                _rb.velocity = Vector3.Lerp(_rb.velocity, dotSpeed, _towardSmooth * Time.deltaTime);
+                // 외적에 따른 속도
+                Vector3 dotSpeed = Vector3.Lerp(MoveDir * Speed, velocity, (dot + 1) * 0.5f);
+
+                _rb.velocity = Vector3.Lerp(_rb.velocity, dotSpeed, _lerpSmooth * Time.deltaTime);
             }
             else
             {
-                _rb.velocity = Vector3.Lerp(_rb.velocity, MoveDir * Speed, _towardSmooth * Time.deltaTime);
+                _rb.velocity = Vector3.Lerp(_rb.velocity, MoveDir * Speed, _lerpSmooth * Time.deltaTime);
             }
-
+            
             _rb.SetVelocityY(velocity.y);
+            
+            _isFirstEnterSlope = false;
         }
         else if(_groundController.IsOnSlope)
         {
+
             MoveDir = Vector3.ProjectOnPlane(MoveDir, _groundController.GroundInfo.normal);
-            
+
             float multipleValue = Speed / new Vector3(MoveDir.x * Speed, 0f, MoveDir.z * Speed).magnitude + MoveDir.y;
 
             if(MoveDir.y >= 0 || input == Vector3.zero)
                 multipleValue = 1f;
-            
+
             _moveAmount = multipleValue * Speed * MoveDir;
 
             if(_playerStateController.HasState(Player_State.Jump))
             {
                 _moveAmount.y = velocity.y;
-
-                _rb.velocity = Vector3.Lerp(_rb.velocity, _moveAmount, _towardSmooth * Time.deltaTime);
-                _rb.SetVelocityY(velocity.y);
             }
-            else
+
+            _rb.velocity = Vector3.Lerp(_rb.velocity, _moveAmount, _lerpSmooth * Time.deltaTime);
+            _rb.SetVelocityY(_moveAmount.y);
+
+            if(!_isFirstEnterSlope)
             {
+                _isFirstEnterSlope = true;
                 _rb.velocity = _moveAmount;
             }
         }
         else
         {
-            _moveAmount = MoveDir * Speed; //Vector3.Lerp(_moveAmount, MoveDir * Speed, Time.deltaTime * _groundSmooth) * TimeManager.PlayerTimeScale;
+            _isFirstEnterSlope = false;
+            _moveAmount = MoveDir * Speed;
             _moveAmount.y = velocity.y;
 
-            _rb.velocity = Vector3.Lerp(_rb.velocity, _moveAmount, _towardSmooth * Time.deltaTime);
+            _rb.velocity = Vector3.Lerp(_rb.velocity, _moveAmount, _lerpSmooth * Time.deltaTime);
             _rb.SetVelocityY(_moveAmount.y);
         }
-        
+
     }
-    
+
 }
