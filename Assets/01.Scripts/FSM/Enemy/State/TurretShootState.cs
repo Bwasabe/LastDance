@@ -14,6 +14,8 @@ public class TurretShootState : TurretBasicState
     {
         base.Enter();
 
+        // turret.SensorMesh.enabled = false;
+
         currentCoroutine = Shoot();
         turret.StartCoroutine(Shoot());
     }
@@ -27,6 +29,12 @@ public class TurretShootState : TurretBasicState
     private IEnumerator Shoot()
     {
         yield return new WaitForSeconds(turret.Data.ShootDelay);
+
+        GameObject target = GameObject.FindAnyObjectByType<PlayerStateController>().gameObject;
+
+        Vector3 l_vector = target.transform.position - stateMachine.Turret.transform.position;
+        Debug.Log(Quaternion.LookRotation(l_vector, Vector3.up));
+        stateMachine.Turret.Head.transform.localRotation = Quaternion.LookRotation(l_vector, Vector3.up) * Quaternion.Euler(-90, 0, 0);
 
         Vector3 moveDir = (turret.transform.position - turret.BulletPos.position).normalized;
         Quaternion quaternion = Quaternion.LookRotation(moveDir, Vector3.up);
@@ -42,9 +50,9 @@ public class TurretShootState : TurretBasicState
 
     private void CheckState()
     {
-        if (stateMachine.Turret.LaserCheck != null)
+        if (stateMachine.Turret.SensorCheck != null)
         {
-            if(stateMachine.Turret.LaserCheck.CurrentState())
+            if(stateMachine.Turret.SensorCheck.CurrentState())
             {
                 currentCoroutine = Shoot();
                 turret.StartCoroutine(currentCoroutine);
