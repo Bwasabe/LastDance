@@ -14,7 +14,8 @@ public class TurretPatrolState : TurretBasicState
     {
         base.Enter();
 
-        stateMachine.Turret.LaserRenderer.enabled = true;
+        // turret.SensorMesh.enabled = true;
+
         ChoiceRotate();
     }
 
@@ -22,12 +23,11 @@ public class TurretPatrolState : TurretBasicState
     {
         base.Update();
 
-        if(stateMachine.Turret.LaserCheck != null && stateMachine.Turret.LaserCheck.CurrentState())
+        if(stateMachine.Turret.SensorCheck != null && stateMachine.Turret.SensorCheck.CurrentState())
         {
             if(currentCoroutine != null)
             {
                 stateMachine.Turret.StopCoroutine(currentCoroutine);
-                stateMachine.Turret.LaserRenderer.enabled = false;
                 stateMachine.ChangeState(stateMachine.ShootState);
             }
         }

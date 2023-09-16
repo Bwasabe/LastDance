@@ -18,6 +18,6 @@ MonoBehaviour:
   <MinRotateX>k__BackingField: -110
   <MaxRotateX>k__BackingField: -75
   <DelayMinAgainRotate>k__BackingField: 0
-  <DelayMaxAgainRotate>k__BackingField: 1.5
+  <DelayMaxAgainRotate>k__BackingField: 0.5
   <ShootDelay>k__BackingField: 1
   <CheckStateDelay>k__BackingField: 1

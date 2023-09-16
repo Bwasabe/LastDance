@@ -8,9 +8,6 @@ public class PlayerAttack : PlayerComponentBase
 
     private Animator playerAnimator;
 
-    [SerializeField]
-    private KatanaAttackCheck katanaAttackCheck;
-
     protected override void Start()
     {
         base.Start();

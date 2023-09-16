@@ -12,7 +12,6 @@ public class TurretDeathState : TurretBasicState
     {
         base.Enter();
 
-        turret.LaserCheck.gameObject.SetActive(false);
         turret.HeadRigidbody.isKinematic = false;
         turret.HeadRigidbody.useGravity = true;
         turret.HeadRigidbody.AddExplosionForce(400, turret.transform.position, 50);

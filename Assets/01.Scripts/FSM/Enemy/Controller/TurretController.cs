@@ -18,21 +18,19 @@ public class TurretController : MonoBehaviour
     [field: SerializeField]
     public ParticleSystem MuzzleFlash { get; private set; }
 
-    public LaserCheck LaserCheck { get; private set; }
-    public MeshRenderer LaserRenderer { get; private set; }
+    public SensorCheck SensorCheck { get; private set; }
     public Rigidbody HeadRigidbody { get; private set; }
+    public MeshRenderer SensorMesh { get; private set; }
 
     // To do PoolManager으로 변환
     [SerializeField]
     private GameObject bullet;
 
-    private bool death;
     private void Awake()
     {
         stateMachine = new TurretStateMachine(this);
-        LaserCheck = gameObject?.GetComponentInChildren<LaserCheck>();
-
-        LaserRenderer = LaserCheck.GetComponent<MeshRenderer>();
+        SensorCheck = gameObject?.GetComponentInChildren<SensorCheck>();
+        SensorMesh = SensorCheck.GetComponent<MeshRenderer>();
         HeadRigidbody = Head.GetComponent<Rigidbody>();
     }
 
@@ -76,14 +74,5 @@ public class TurretController : MonoBehaviour
     public void SpawnBullet(Vector3 pos, Quaternion rot)
     {
         Instantiate(bullet, pos, rot);
-    }
-
-    public void Death()
-    {
-        if (!death)
-        {
-            stateMachine.ChangeState(stateMachine.DeathState);
-            death = true;
-        }
     }
 }
