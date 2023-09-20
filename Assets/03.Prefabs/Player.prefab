@@ -21355,7 +21355,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3826563803695198064}
   m_LocalRotation: {x: -0.0000003139139, y: -0.4826077, z: -0.8758367, w: 0.0000001513399}
-  m_LocalPosition: {x: -0.382, y: 0.0822, z: 0.0174}
+  m_LocalPosition: {x: -0.344, y: 0.082, z: 0}
   m_LocalScale: {x: 0.21999997, y: 0.22000003, z: 0.22}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -21406,7 +21406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6215102b646444ea94e96c53f0ee9907, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <EquipPos>k__BackingField: {x: -0.382, y: 0.0822, z: 0.0174}
+  <EquipPos>k__BackingField: {x: -0.344, y: 0.082, z: 0}
   <EquipRotation>k__BackingField: {x: 237.712, y: 180, z: 0}
   <EquipScale>k__BackingField: {x: 0.22, y: 0.22, z: 0.22}
 --- !u!65 &369954898606679934
@@ -38236,6 +38236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   katanaAttackCheck: {fileID: 511367933414084580}
+  _attackDuration: 0.5
 --- !u!114 &7433471502337299960
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -8,6 +8,10 @@ public class PlayerAttack : PlayerComponentBase
 
     private Animator playerAnimator;
 
+    [SerializeField]
+    private float _attackDuration = 0.5f;
+
+    private float _timer;
     protected override void Start()
     {
         base.Start();
@@ -22,9 +26,16 @@ public class PlayerAttack : PlayerComponentBase
 
     private void Attack()
     {
-        if(Input.GetMouseButtonDown(0))
+        _timer += Time.deltaTime;
+
+        if(_timer >= _attackDuration)
         {
-            playerAnimator.SetTrigger(attackHash);
+            if(Input.GetMouseButtonDown(0))
+            {
+                _timer = 0f;
+                
+                playerAnimator.SetTrigger(attackHash);
+            }
         }
     }
 }
