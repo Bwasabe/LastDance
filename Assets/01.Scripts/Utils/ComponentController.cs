@@ -77,7 +77,7 @@ public class ComponentController : MonoBehaviour
     {
         _componentsList.Clear();
 
-        Component[] components = GetComponentsInChildren<Component>();
+        Component[] components = GetComponentsInChildren<Component>(true);
 
         Dictionary<Type, Component> componentDict = new();
 

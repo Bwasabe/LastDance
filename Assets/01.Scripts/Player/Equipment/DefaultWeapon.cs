@@ -27,12 +27,15 @@ public class DefaultWeapon : ItemBase
     private Animator _playerAnimator;
     
     private AnimationEventHandler _animationEventHandler;
+    private PlayerStateController _playerStateController;
     
     protected void Start()
     {
         _playerAnimator = transform.GetComponentCache<Animator>();
 
         _animationEventHandler = transform.GetComponentCache<AnimationEventHandler>();
+
+        _playerStateController = transform.GetComponentCache<PlayerStateController>();
         
         _animationEventHandler.AddEvent(nameof(SetInnerAttackParticleRotation), SetInnerAttackParticleRotation);
         _animationEventHandler.AddEvent(nameof(SetOuterAttackParticleRotation), SetOuterAttackParticleRotation);
@@ -43,6 +46,8 @@ public class DefaultWeapon : ItemBase
     
     public override void Execute()
     {
+        if(_playerStateController.HasState(Player_State.Climbing)) return;
+        
         // 애니메이션 실행
         if(_timer < _attackDuration) return;
         _timer = 0f;
@@ -61,8 +66,8 @@ public class DefaultWeapon : ItemBase
     private void DisableAttackCollider()
     {
         _attackCollider.gameObject.SetActive(false);
-        
     }
+    
     
     private void SetOuterAttackParticleRotation()
     {

@@ -13,6 +13,8 @@ public class PlayerItemController : MonoBehaviour
     [SerializeField]
     private Transform _handTransform;
 
+    public Transform HandTransform => _handTransform;
+
     private CapsuleCollider _capsuleCollider;
 
     public event Action<ItemBase> OnEquipItem;

@@ -17,4 +17,9 @@ public abstract class ItemBase : MonoBehaviour
     public abstract void Execute();
 
     public virtual void OnRemoved() {}
+
+    public virtual void EndAction()
+    {
+        
+    }
 }
