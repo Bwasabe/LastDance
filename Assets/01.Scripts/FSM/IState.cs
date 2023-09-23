@@ -14,4 +14,5 @@ public interface IState
     public void OnTriggerExit(Collider collider);
     public void OnCollisionEnter(Collision collision);
     public void OnCollisionExit(Collision collision);
+    public void OnDrawGizmos();
 }

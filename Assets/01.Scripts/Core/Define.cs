@@ -34,6 +34,19 @@ public static class Define
             return _mainCam;
         }
     }
+
+    private static GameObject _player;
+    public static GameObject Player
+    {
+        get
+        {
+            if(_player == null)
+            {
+                _player = GameObject.FindAnyObjectByType<PlayerStateController>().gameObject;
+            }
+            return _player;
+        }
+    }
     
     public static Vector3 GetInput()
     {

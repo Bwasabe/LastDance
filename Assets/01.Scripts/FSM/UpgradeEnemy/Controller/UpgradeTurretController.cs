@@ -2,41 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TurretController : MonoBehaviour
+public class UpgradeTurretController : MonoBehaviour
 {
-    [field: Header("References")]
-    [field: SerializeField] public TurretSO Data { get; private set; }
-
-    private TurretStateMachine stateMachine;
+    private UGTurretStateMachine stateMachine;
 
     [field: SerializeField]
     public Transform Head { get; private set; }
-
     [field: SerializeField]
     public Transform BulletPos { get; private set; }
-
     [field: SerializeField]
     public ParticleSystem MuzzleFlash { get; private set; }
+    [field: SerializeField]
+    public GameObject bullet { get; private set; }
 
-    public SensorCheck SensorCheck { get; private set; }
-    public Rigidbody HeadRigidbody { get; private set; }
-    public MeshRenderer SensorMesh { get; private set; }
-
-    // To do PoolManager으로 변환
-    [SerializeField]
-    private GameObject bullet;
+    [field: SerializeField]
+    public float AngleRange { get; private set; } = 30f;
+    [field: SerializeField]
+    public float Radius { get; private set; } = 3f;
+    [field: SerializeField]
+    public float WaitTime { get; private set; } = 2f;
 
     private void Awake()
     {
-        stateMachine = new TurretStateMachine(this);
-        SensorCheck = gameObject?.GetComponentInChildren<SensorCheck>();
-        SensorMesh = SensorCheck.GetComponent<MeshRenderer>();
-        HeadRigidbody = Head.GetComponent<Rigidbody>();
+        stateMachine = new UGTurretStateMachine(this);
     }
 
     private void Start()
     {
-        stateMachine.ChangeState(stateMachine.PatrolState);
+        stateMachine.ChangeState(stateMachine.IdleState);
     }
 
     private void Update()
@@ -73,11 +66,16 @@ public class TurretController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        stateMachine.OnDrawGizmos();
+        stateMachine?.OnDrawGizmos();
     }
 
     public void SpawnBullet(Vector3 pos, Quaternion rot)
     {
-        Instantiate(bullet, pos, rot);
+        GameObject g = PoolManager.Get(bullet);
+
+        g.transform.localPosition = pos;
+        g.transform.localRotation = rot;
+
+        // Debug.Log(g.transform.localRotation.eulerAngles);
     }
 }
