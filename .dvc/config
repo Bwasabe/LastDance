@@ -1,0 +1,6 @@
+[core]
+    remote = storage
+['remote "map"']
+    url = gdrive://ClearSky
+['remote "storage"']
+    url = gdrive://mapclearsky
