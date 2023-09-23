@@ -47,4 +47,9 @@ public abstract class StateMachine
     {
         currentState?.OnCollisionExit(collision);
     }
+
+    public void OnDrawGizmos()
+    {
+        currentState?.OnDrawGizmos();
+    }
 }

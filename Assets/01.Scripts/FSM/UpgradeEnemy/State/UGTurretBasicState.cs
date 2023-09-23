@@ -2,15 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class TurretBasicState : IState
+public class UGTurretBasicState : IState
 {
-    protected TurretStateMachine stateMachine;
-    protected TurretController turret;
+    protected UGTurretStateMachine stateMachine;
+    protected UpgradeTurretController turret;
 
 
 
-    public TurretBasicState(TurretStateMachine turretStateMachine)
+    public UGTurretBasicState(UGTurretStateMachine turretStateMachine)
     {
         stateMachine = turretStateMachine;
     }

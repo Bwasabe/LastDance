@@ -30,6 +30,10 @@ public class DialogueManager : MonoBehaviour
     private List<Data> currentData;
     private int curIdx;
     private int line = -1;
+
+    Sequence startSequence;
+    Sequence endSequence;
+    
     private void Start()
     {
         dialoguePanel = dialogueAnimator.GetComponent<CanvasGroup>();
@@ -57,8 +61,6 @@ public class DialogueManager : MonoBehaviour
 
         dialoguePanel.DOFade(1, 0.5f);
 
-        dialogueAnimator.SetTrigger(startHash);
-
         currentData = dialogueDataList.DialogueDatas[currentLV].data;
 
         curIdx = 0;
@@ -66,12 +68,28 @@ public class DialogueManager : MonoBehaviour
         writing = false;
         next.SetActive(false);
 
-        StartCoroutine("StartContent");
+        startSequence = DOTween.Sequence();
+
+        startSequence.Append(dialogueTransform.DOSizeDelta(new Vector2(200f, 200f), 0.15f));
+        startSequence.AppendInterval(0.05f);
+        startSequence.Append(dialogueTransform.DOSizeDelta(new Vector2(1200f, 200f), .35f).SetEase(Ease.InBack));
+        startSequence.Append(dialogueTransform.DOSizeDelta(new Vector2(1200f, 250f), 0.15f).SetEase(Ease.OutBack));
+        startSequence.AppendCallback(() =>
+        {
+            startWrite = true;
+            WriteContent();
+        });
+
+        //dialogueAnimator.SetTrigger(startHash);
+
+        //StartCoroutine("StartContent");
     }
 
     private void InitDialogue()
     {
-        dialogueTransform.sizeDelta = new Vector3(200, 200);
+        dialogueTransform.sizeDelta = new Vector2(200, 200);
+
+
         InitCotents();
     }
 
@@ -81,29 +99,6 @@ public class DialogueManager : MonoBehaviour
         {
             content.text = "";
         }
-    }
-
-    private IEnumerator StartContent()
-    {
-        yield return new WaitForSeconds(0.1f);
-
-        float curAnimationTime = dialogueAnimator.GetCurrentAnimatorStateInfo(0).length;
-
-        yield return new WaitForSeconds(curAnimationTime);
-
-        startWrite = true;
-        WriteContent();
-    }
-
-    private IEnumerator EndContent()
-    {
-        yield return new WaitForSeconds(0.001f);
-
-        float curAnimationTime = dialogueAnimator.GetCurrentAnimatorStateInfo(0).length;
-
-        yield return new WaitForSeconds(curAnimationTime * 0.8f);
-
-        dialoguePanel.DOFade(0, 0.3f).OnComplete(() => dialogueAnimator.SetTrigger(ExitHash));
     }
 
     private void WriteContent()
@@ -122,9 +117,13 @@ public class DialogueManager : MonoBehaviour
             startWrite = false;
             InitCotents();
             next.SetActive(false);
-            dialogueAnimator.SetTrigger(EndHash);
 
-            StartCoroutine("EndContent");
+            endSequence = DOTween.Sequence();
+
+            endSequence.Append(dialogueTransform.DOSizeDelta(new Vector2(1200f, 200f), 0.15f).SetEase(Ease.OutBack));
+            endSequence.Append(dialogueTransform.DOSizeDelta(new Vector2(200f, 200f), 0.25f).SetEase(Ease.InBack));
+            endSequence.Append(dialoguePanel.DOFade(0, 0.2f));
+
             return;
         }
 
