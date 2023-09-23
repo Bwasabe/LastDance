@@ -29,7 +29,7 @@ public class TurretController : MonoBehaviour
     private void Awake()
     {
         stateMachine = new TurretStateMachine(this);
-        SensorCheck = gameObject?.GetComponentInChildren<SensorCheck>();
+        SensorCheck = gameObject.GetComponentInChildren<SensorCheck>();
         SensorMesh = SensorCheck.GetComponent<MeshRenderer>();
         HeadRigidbody = Head.GetComponent<Rigidbody>();
     }
@@ -73,7 +73,7 @@ public class TurretController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        stateMachine.OnDrawGizmos();
+        stateMachine?.OnDrawGizmos();
     }
 
     public void SpawnBullet(Vector3 pos, Quaternion rot)
