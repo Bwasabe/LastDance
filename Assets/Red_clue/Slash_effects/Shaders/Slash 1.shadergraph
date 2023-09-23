@@ -17,9 +17,6 @@
         },
         {
             "m_Id": "63e0cc6f3e23492ba100fe007440aa46"
-        },
-        {
-            "m_Id": "f5ae80a882274406a526db8b2e3cb3bd"
         }
     ],
     "m_Keywords": [],
@@ -3319,7 +3316,7 @@
         "r": 0.005873965565115213,
         "g": 0.4150943160057068,
         "b": 0.300599068403244,
-        "a": 0.0
+        "a": 1.0
     },
     "isMainColor": false,
     "m_ColorMode": 0
@@ -3471,9 +3468,6 @@
         },
         {
             "m_Id": "63e0cc6f3e23492ba100fe007440aa46"
-        },
-        {
-            "m_Id": "f5ae80a882274406a526db8b2e3cb3bd"
         }
     ]
 }
@@ -4141,34 +4135,6 @@
     "m_Labels": [
         "X"
     ]
-}
-
-{
-    "m_SGVersion": 1,
-    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
-    "m_ObjectId": "f5ae80a882274406a526db8b2e3cb3bd",
-    "m_Guid": {
-        "m_GuidSerialized": "d877e42e-0074-4361-98cf-54c3342218ae"
-    },
-    "m_Name": "Value",
-    "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Value",
-    "m_DefaultReferenceName": "_Value",
-    "m_OverrideReferenceName": "",
-    "m_GeneratePropertyBlock": true,
-    "m_UseCustomSlotLabel": false,
-    "m_CustomSlotLabel": "",
-    "m_DismissedVersion": 0,
-    "m_Precision": 0,
-    "overrideHLSLDeclaration": false,
-    "hlslDeclarationOverride": 0,
-    "m_Hidden": false,
-    "m_Value": 0.20000000298023225,
-    "m_FloatType": 1,
-    "m_RangeValues": {
-        "x": 0.0,
-        "y": 1.0
-    }
 }
 
 {
