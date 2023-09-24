@@ -223,11 +223,13 @@ public class PlayerWallRunning : PlayerComponentBase
         // forward와 닿은 벽의 normal사이의 각도를 구한 후, 현재 y 와 구한 각도 사이 값을 구하고, 그 값을 90으로 나눈 것에 Multiplier를 곱함
         float signedAngle = Vector3.SignedAngle(Vector3.forward, _results[0].normal, Vector3.up);
         float deltaAngle = Mathf.DeltaAngle(_cameraMovement.transform.eulerAngles.y, signedAngle);
-        float rotationAngle = -deltaAngle / 90f * _camRotationMultiplier;
+        float rotationAngle = Mathf.Sin(deltaAngle * Mathf.Deg2Rad) * _camRotationMultiplier * -1f; 
         
+        OnGUIManager.Instance.SetGUI("rotationAngle", rotationAngle);
         OnGUIManager.Instance.SetGUI("deltaAngle", deltaAngle);
 
-        IsLookWall = deltaAngle is < -150 or > 150; 
+        IsLookWall = deltaAngle is < -150 or > 150;
+        
         
         // 고개가 돌아가도 괜찮은 각도
         if(IsLookWall)
@@ -236,7 +238,7 @@ public class PlayerWallRunning : PlayerComponentBase
         }
         else
         {
-            _cameraMovement.SetRotationZ(Mathf.SmoothDamp(_cameraMovement.RotationValue.z, rotationAngle, ref _dampVelocity, _wallRotationDuration));
+             _cameraMovement.SetRotationZ(Mathf.SmoothDamp(_cameraMovement.RotationValue.z, rotationAngle, ref _dampVelocity, _wallRotationDuration));
         }
         
         
@@ -268,7 +270,7 @@ public class PlayerWallRunning : PlayerComponentBase
     {
         _playerStateController.RemoveState(Player_State.WallRunning);
         _playerJump.RemoveGravity = false;
-
+        
         _camRotateTweener = DOTween.To(
             () => _cameraMovement.RotationValue.z,
             value => _cameraMovement.SetRotationZ(value),

@@ -1298,6 +1298,7 @@ GameObject:
   m_Component:
   - component: {fileID: 713306071}
   - component: {fileID: 713306072}
+  - component: {fileID: 713306073}
   m_Layer: 7
   m_Name: AttackCollision
   m_TagString: Untagged
@@ -1341,6 +1342,19 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &713306073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 713306070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0149ff21291d29a428b9c146a18bc7c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitStopDuration: 0.1
 --- !u!1 &727794853
 GameObject:
   m_ObjectHideFlags: 0
@@ -50761,7 +50775,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b2931713edcc994cbc538a194bf13fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _groundCheckDistance: 0.3
+  _groundCheckDistance: 0.1
   _maxSlopeAngle: 60
   _groundLayer:
     serializedVersion: 2
@@ -76778,6 +76792,7 @@ MonoBehaviour:
   - {fileID: 8013399238480664929}
   - {fileID: 8999767318469469424}
   - {fileID: 713306072}
+  - {fileID: 713306073}
   - {fileID: 4206845471248051414}
   - {fileID: 9180013672623253744}
   - {fileID: 1448883027491639252}

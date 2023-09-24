@@ -86,7 +86,6 @@ public class PlayerMove : PlayerComponentBase
 
         Vector3 right = new Vector3(forward.z, 0f, -forward.x);
 
-        // if(_groundController.IsGround || input != Vector3.zero)
         MoveDir = (right * input.x + forward * input.z).normalized;
 
         Vector3 velocity = _rb.velocity;
@@ -118,7 +117,6 @@ public class PlayerMove : PlayerComponentBase
         }
         else if(_groundController.IsOnSlope)
         {
-
             MoveDir = Vector3.ProjectOnPlane(MoveDir, _groundController.GroundInfo.normal);
 
             float multipleValue = Speed / new Vector3(MoveDir.x * Speed, 0f, MoveDir.z * Speed).magnitude + MoveDir.y;
