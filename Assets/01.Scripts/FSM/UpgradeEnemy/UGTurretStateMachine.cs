@@ -8,6 +8,7 @@ public class UGTurretStateMachine : StateMachine
 
     public UGTurretIdleState IdleState { get; }
     public UGTurretShootState SearchState { get; }
+    public UGTurretDeathState DeathState { get; }
 
     public UGTurretStateMachine(UpgradeTurretController turret)
     {
@@ -15,5 +16,6 @@ public class UGTurretStateMachine : StateMachine
 
         IdleState = new UGTurretIdleState(this);
         SearchState = new UGTurretShootState(this);
+        DeathState = new UGTurretDeathState(this);
     }
 }
