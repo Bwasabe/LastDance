@@ -25058,10 +25058,14 @@ MonoBehaviour:
   - {fileID: 275783359}
   - {fileID: 1189025986}
   - {fileID: 1189025987}
+  - {fileID: 247317299}
   - {fileID: 2054519119}
   - {fileID: 2054519120}
+  - {fileID: 2054519122}
   - {fileID: 1394951252}
   - {fileID: 1394951251}
+  - {fileID: 1172895809}
+  - {fileID: 1172895808}
   - {fileID: 1058641110}
 --- !u!54 &1890907088
 Rigidbody:
@@ -25279,8 +25283,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <CrouchSpeed>k__BackingField: 3
+  _capsuleHeight: 1
+  _capsuleCenter: {x: 0, y: 0.5, z: 0}
   _camHeight: 0.7
-  _camMoveDuration: 0.25
+  _animDuration: 0.15
 --- !u!114 &1890907098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25621,9 +25627,11 @@ GameObject:
   - component: {fileID: 2054519118}
   - component: {fileID: 2054519119}
   - component: {fileID: 2054519120}
+  - component: {fileID: 2054519122}
+  - component: {fileID: 2054519121}
   m_Layer: 0
   m_Name: Cyberkatana
-  m_TagString: Untagged
+  m_TagString: Katana
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25690,6 +25698,11 @@ MonoBehaviour:
   <EquipPos>k__BackingField: {x: -0.382, y: 0.0822, z: 0.0174}
   <EquipRotation>k__BackingField: {x: 237.712, y: 180, z: 0}
   <EquipScale>k__BackingField: {x: 0.22, y: 0.22, z: 0.22}
+  _attackDuration: 0.5
+  _innerParticleRotation: {x: 0, y: 0, z: 0}
+  _outerParticleRotation: {x: 0, y: 0, z: 0}
+  _attackParticle: {fileID: 0}
+  _attackCollider: {fileID: 0}
 --- !u!65 &2054519120
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25711,6 +25724,45 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.4598978, y: 0.33702856, z: 0.5439966}
   m_Center: {x: 0.76663995, y: 0.06666005, z: -0.010853501}
+--- !u!54 &2054519121
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2054519116}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &2054519122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2054519116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dbc0cd4be97653418c1e604f105892a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2058428662
 GameObject:
   m_ObjectHideFlags: 0
