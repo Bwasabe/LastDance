@@ -14842,7 +14842,7 @@ GameObject:
   - component: {fileID: 5791113116509377310}
   - component: {fileID: 2136420160429799010}
   - component: {fileID: 4312119413504851937}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube.007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19872,7 +19872,7 @@ Transform:
   m_Children:
   - {fileID: 1679119010909285421}
   m_Father: {fileID: 0}
-  m_RootOrder: 25
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &514175016219742463
 MonoBehaviour:
@@ -19886,6 +19886,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5546621b45fbadc4193445c625f1b317, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <HeadRigidbody>k__BackingField: {fileID: 0}
   <Head>k__BackingField: {fileID: 5625617912629512137}
   <BulletPos>k__BackingField: {fileID: 1041830990308982031}
   <MuzzleFlash>k__BackingField: {fileID: 4420642041180412535}
@@ -19905,7 +19906,7 @@ GameObject:
   - component: {fileID: 8960542401696764098}
   - component: {fileID: 6227635774097704088}
   - component: {fileID: 4409635258728453357}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube.005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25166,7 +25167,7 @@ GameObject:
   - component: {fileID: 5621679883848571296}
   - component: {fileID: 8236082892417452144}
   - component: {fileID: 6220285837802732454}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube.001
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -25403,7 +25404,7 @@ GameObject:
   - component: {fileID: 613470146903363132}
   - component: {fileID: 8572044952503009707}
   - component: {fileID: 169070405180935563}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube.003
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -25532,7 +25533,7 @@ GameObject:
   - component: {fileID: 8397364922270982213}
   - component: {fileID: 9035017876318125045}
   - component: {fileID: 8513159292490858307}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube.006
   m_TagString: Enemy
   m_Icon: {fileID: 0}

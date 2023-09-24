@@ -23897,7 +23897,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.033333335
+  - time: 0.1
     functionName: OnAnimationExecute
     data: EnableAttackCollider
     objectReferenceParameter: {fileID: 0}

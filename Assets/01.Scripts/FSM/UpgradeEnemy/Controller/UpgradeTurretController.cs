@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UpgradeTurretController : MonoBehaviour
+public class UpgradeTurretController : MonoBehaviour, ITakeDamageable
 {
     private UGTurretStateMachine stateMachine;
 
@@ -75,7 +75,7 @@ public class UpgradeTurretController : MonoBehaviour
 
     public void SpawnBullet(Vector3 pos, Quaternion rot)
     {
-        GameObject g = PoolManager.Get(bullet);
+        GameObject g = PoolManager.Instantiate(bullet);
 
         g.transform.localPosition = pos;
         g.transform.localRotation = rot;
@@ -83,7 +83,7 @@ public class UpgradeTurretController : MonoBehaviour
         // Debug.Log(g.transform.localRotation.eulerAngles);
     }
 
-    public void ChangeDeathState()
+    public void Hit()
     {
         stateMachine.ChangeState(stateMachine.DeathState);
     }

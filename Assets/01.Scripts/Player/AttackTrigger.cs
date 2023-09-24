@@ -10,11 +10,14 @@ public class AttackTrigger : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if(other.TryGetComponent(out ITakeDamageable damageable))
-        {
-            damageable.Hit();
+        ITakeDamageable takeDamageable = other.transform.root.GetComponentInChildren<ITakeDamageable>();
+
+        if(takeDamageable is null) return;
+        
+        
+        takeDamageable.Hit();
             
-            TimeManager.Instance.StopTime(_hitStopDuration);
-        }
+        TimeManager.Instance.StopTime(_hitStopDuration);
+
     }
 }

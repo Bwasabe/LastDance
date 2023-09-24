@@ -220,7 +220,7 @@ public class PlayerWallRunning : PlayerComponentBase
     
     private void WallRunning()
     {
-        // forward와 닿은 벽의 normal사이의 각도를 구한 후, 현재 y 와 구한 각도 사이 값을 구하고, 그 값을 90으로 나눈 것에 Multiplier를 곱함
+        // forward와 닿은 벽의 normal사이의 각도를 구한 후, 현재 y 와 구한 각도 사이 값을 구하고, 그 값을 Sin 함수에 넣어 0~1값으로 정규화한 후 몇도 돌릴지를 곱해준다
         float signedAngle = Vector3.SignedAngle(Vector3.forward, _results[0].normal, Vector3.up);
         float deltaAngle = Mathf.DeltaAngle(_cameraMovement.transform.eulerAngles.y, signedAngle);
         float rotationAngle = Mathf.Sin(deltaAngle * Mathf.Deg2Rad) * _camRotationMultiplier * -1f; 

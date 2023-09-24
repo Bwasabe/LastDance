@@ -17,7 +17,7 @@ public class TimeManager : MonoSingleton<TimeManager>
 
     private IEnumerator Timer(float duration, float prevTimeScale)
     {
-        yield return Yields.WaitForSeconds(duration);
+        yield return Yields.WaitForSecondsRealtime(duration);
 
         Time.timeScale = prevTimeScale;
     }
