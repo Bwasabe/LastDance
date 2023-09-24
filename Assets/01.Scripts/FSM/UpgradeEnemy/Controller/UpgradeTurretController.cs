@@ -7,6 +7,8 @@ public class UpgradeTurretController : MonoBehaviour
     private UGTurretStateMachine stateMachine;
 
     [field: SerializeField]
+    public Rigidbody HeadRigidbody { get; private set; }
+    [field: SerializeField]
     public Transform Head { get; private set; }
     [field: SerializeField]
     public Transform BulletPos { get; private set; }
@@ -25,6 +27,8 @@ public class UpgradeTurretController : MonoBehaviour
     private void Awake()
     {
         stateMachine = new UGTurretStateMachine(this);
+
+        HeadRigidbody = Head.GetComponent<Rigidbody>();
     }
 
     private void Start()
@@ -77,5 +81,10 @@ public class UpgradeTurretController : MonoBehaviour
         g.transform.localRotation = rot;
 
         // Debug.Log(g.transform.localRotation.eulerAngles);
+    }
+
+    public void ChangeDeathState()
+    {
+        stateMachine.ChangeState(stateMachine.DeathState);
     }
 }
