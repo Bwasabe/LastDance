@@ -232,11 +232,11 @@ public class PlayerWallRunning : PlayerComponentBase
         // 고개가 돌아가도 괜찮은 각도
         if(IsLookWall)
         {
-            _cameraMovement.RotationZ = Mathf.SmoothDamp(_cameraMovement.RotationZ, 0f, ref _dampVelocity, _wallRotationDuration);
+            _cameraMovement.SetRotationZ(Mathf.SmoothDamp(_cameraMovement.RotationValue.z, 0f, ref _dampVelocity, _wallRotationDuration));
         }
         else
         {
-            _cameraMovement.RotationZ = Mathf.SmoothDamp(_cameraMovement.RotationZ, rotationAngle, ref _dampVelocity, _wallRotationDuration);
+            _cameraMovement.SetRotationZ(Mathf.SmoothDamp(_cameraMovement.RotationValue.z, rotationAngle, ref _dampVelocity, _wallRotationDuration));
         }
         
         
@@ -270,8 +270,8 @@ public class PlayerWallRunning : PlayerComponentBase
         _playerJump.RemoveGravity = false;
 
         _camRotateTweener = DOTween.To(
-            () => _cameraMovement.RotationZ,
-            value => _cameraMovement.RotationZ = value,
+            () => _cameraMovement.RotationValue.z,
+            value => _cameraMovement.SetRotationZ(value),
             0f, _wallRotationDuration
         ).SetEase(Ease.InOutCubic);
     }

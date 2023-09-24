@@ -14,8 +14,9 @@ public class CameraMovement : MonoBehaviour
     private float _rotateY = 0f;
 
     private Coroutine _rotationValueCoroutine;
-
-    public float RotationZ{ get; set; } = 0f;
+    
+    [field:SerializeField]
+    public Vector3 RotationValue{ get; set; }
     
     private void LateUpdate()
     {
@@ -32,6 +33,13 @@ public class CameraMovement : MonoBehaviour
         
         _rotateY = Mathf.Clamp(_rotateY, _rotateClamp.x, _rotateClamp.y);
 
-        transform.localRotation = Quaternion.Euler(-_rotateY,_rotateX, RotationZ);
+        transform.localRotation = Quaternion.Euler(-_rotateY + RotationValue.x,_rotateX + RotationValue.y, RotationValue.z);
+    }
+
+    public void SetRotationZ(float value)
+    {
+        Vector3 rotationValue = RotationValue;
+        rotationValue.z = value;
+        RotationValue = rotationValue;
     }
 }

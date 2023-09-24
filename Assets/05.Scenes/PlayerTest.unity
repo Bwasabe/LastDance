@@ -1358,7 +1358,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &727794854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1377,8 +1377,8 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
+  m_LookAt: {fileID: 6376834295536109942}
+  m_Follow: {fileID: 6376834295536109942}
   m_Lens:
     FieldOfView: 60
     OrthographicSize: 5
@@ -1406,7 +1406,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 727794853}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.06, y: 38.35, z: 2.04}
+  m_LocalPosition: {x: 4.76, y: 38.65, z: 1.471}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -19038,7 +19038,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!81 &259371390335303618
 AudioListener:
   m_ObjectHideFlags: 0
@@ -40745,9 +40745,9 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 0
+  looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -41567,7 +41567,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 30
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -41684,7 +41684,7 @@ ParticleSystem:
           m_Curve:
           - serializedVersion: 3
             time: 0
-            value: 0
+            value: 1
             inSlope: 0
             outSlope: 0
             tangentMode: 0
@@ -45609,7 +45609,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8433135702094491441}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.6, y: 0.46, z: 1.471}
+  m_LocalPosition: {x: 4.76, y: 37.3, z: 1.471}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -50774,7 +50774,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 257538342115533505}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 0.5
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -50783,7 +50783,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -51603,7 +51603,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 0
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -55827,6 +55827,51 @@ MonoBehaviour:
   _outerParticleRotation: {x: 13.5, y: -82.2, z: 0}
   _attackParticle: {fileID: 3918418388280372824}
   _attackCollider: {fileID: 713306072}
+  _attackTweenDuration: 0.5
+  _tweenAnimCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: -2.9253736
+      outSlope: -2.9253736
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.21670467
+    - serializedVersion: 3
+      time: 0.25
+      value: -0.7
+      inSlope: -0.031473797
+      outSlope: 0.5256606
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.5294269
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5
+      value: 1
+      inSlope: -0.2549404
+      outSlope: -0.016750393
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.12579054
+      outWeight: 0.48713106
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -3.0591438
+      outSlope: -3.0591438
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.10727978
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _innerRotationValue: {x: 6.48, y: 5.136, z: 0}
+  _outerRotationValue: {x: 4.784, y: -8.5748, z: 0}
 --- !u!33 &6060398313039266904
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -56005,7 +56050,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8999767318469469423}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.3499985, z: 0}
+  m_LocalPosition: {x: 0, y: 1.3500023, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -61205,8 +61250,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <CrouchSpeed>k__BackingField: 3
+  _capsuleHeight: 1
+  _capsuleCenter: {x: 0, y: 0.5, z: 0}
   _camHeight: 0.7
-  _camMoveDuration: 0.15
+  _animDuration: 0.15
 --- !u!1 &7019613040915570577
 GameObject:
   m_ObjectHideFlags: 0
@@ -61672,9 +61719,9 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 0
+  looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -62494,7 +62541,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 30
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -62611,7 +62658,7 @@ ParticleSystem:
           m_Curve:
           - serializedVersion: 3
             time: 0
-            value: 0
+            value: 1
             inSlope: 0
             outSlope: 0
             tangentMode: 0
@@ -71336,6 +71383,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sensitiveness: 3
   _rotateClamp: {x: -89, y: 89}
+  <RotationValue>k__BackingField: {x: 0, y: 0, z: 0}
 --- !u!1 &8049262014818202726
 GameObject:
   m_ObjectHideFlags: 0
@@ -71371,7 +71419,7 @@ MonoBehaviour:
   _dashDistance: 30
   _dashDuration: 0.15
   _dashFOV: 80
-  _dashParticle: {fileID: 257538342115533505}
+  _dashParticle: {fileID: 5397844197141108028}
   _dashCurve:
     serializedVersion: 2
     m_Curve:
@@ -76728,9 +76776,13 @@ MonoBehaviour:
   - {fileID: 259371390335303618}
   - {fileID: 7228673163667127704}
   - {fileID: 8013399238480664929}
+  - {fileID: 8999767318469469424}
+  - {fileID: 713306072}
   - {fileID: 4206845471248051414}
   - {fileID: 9180013672623253744}
   - {fileID: 1448883027491639252}
+  - {fileID: 3918418388280372827}
+  - {fileID: 3918418388280372826}
   - {fileID: 6003250939205994538}
   - {fileID: 4547130970082822907}
   - {fileID: 3752380593237190812}
@@ -76814,6 +76866,7 @@ GameObject:
   - component: {fileID: 259371390335303618}
   - component: {fileID: 7228673163667127704}
   - component: {fileID: 8013399238480664929}
+  - component: {fileID: 8999767318469469424}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -76821,6 +76874,40 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &8999767318469469424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8999767318469469423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowDebugText: 0
+  m_ShowCameraFrustum: 1
+  m_IgnoreTimeScale: 0
+  m_WorldUpOverride: {fileID: 0}
+  m_UpdateMethod: 2
+  m_BlendUpdateMethod: 1
+  m_DefaultBlend:
+    m_Style: 1
+    m_Time: 2
+    m_CustomCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  m_CustomBlends: {fileID: 0}
+  m_CameraCutEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_CameraActivatedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &9014692764757107074
 Transform:
   m_ObjectHideFlags: 0

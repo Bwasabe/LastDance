@@ -21,7 +21,7 @@ public class PlayerDash : PlayerComponentBase
     private float _dashFOV = 80f;
 
     [SerializeField]
-    private GameObject _dashParticle;
+    private ParticleSystem _dashParticle;
 
     [SerializeField]
     private AnimationCurve _dashCurve;
@@ -43,6 +43,7 @@ public class PlayerDash : PlayerComponentBase
     private Rigidbody _rb;
 
     private Tweener _fovTweener;
+    private Coroutine _dashParticleCoroutine;
 
     private PlayerMove _playerMove;
     private PlayerJump _playerJump;
@@ -76,8 +77,8 @@ public class PlayerDash : PlayerComponentBase
         GlobalVolume.Instance.GetProfile(out _chromaticAberration);
         GlobalVolume.Instance.GetProfile(out _motionBlur);
 
-        // _camFOV = _vCam.m_Lens.FieldOfView;
-        _camFOV = 70;
+        _camFOV = _vCam.m_Lens.FieldOfView;
+        // _camFOV = 70;
     }
 
     private void Update()
@@ -105,6 +106,12 @@ public class PlayerDash : PlayerComponentBase
         }
     }
 
+    private IEnumerator DisableParticle()
+    {
+        yield return Yields.WaitForSeconds(_dashDuration);
+        _dashParticle.Stop();
+    }
+
     private void Dash()
     {
         if(_currentDashCount <= 0) return;
@@ -115,14 +122,19 @@ public class PlayerDash : PlayerComponentBase
 
         _prevVelocity = _rb.velocity;
         _prevVelocity.y = 0f;
-        
-        _dashParticle.gameObject.SetActive(true);
+
+        _dashParticle.Play(true);
         
         if(_fovTweener is not null)
         {
             _vCam.m_Lens.FieldOfView = _camFOV;
+            
             _fovTweener.Kill();
+            if(_dashParticleCoroutine != null)
+             StopCoroutine(_dashParticleCoroutine);
         }
+
+        _dashParticleCoroutine = StartCoroutine(DisableParticle());
 
         _fovTweener = DOTween.To(
             () => _vCam.m_Lens.FieldOfView,
@@ -176,8 +188,6 @@ public class PlayerDash : PlayerComponentBase
 
         _playerMove.IsFreeze = false;
         _playerJump.RemoveGravity = false;
-        
-        _dashParticle.gameObject.SetActive(false);
         
         _dashTimer = 0f;
     }
