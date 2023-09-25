@@ -16,6 +16,7 @@ public enum Player_State
     Sliding = 1 << 7,
     Climbing = 1 << 8,
     Slow = 1 << 9,
+    Dead = 1 << 10,
 }
 
 public class PlayerStateController : MonoBehaviour

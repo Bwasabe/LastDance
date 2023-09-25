@@ -239,7 +239,6 @@ GameObject:
   - component: {fileID: 217682966}
   - component: {fileID: 217682969}
   - component: {fileID: 217682968}
-  - component: {fileID: 217682967}
   - component: {fileID: 217682970}
   m_Layer: 5
   m_Name: SlidingGauge
@@ -268,20 +267,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &217682967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 217682965}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8829a5b13e1ca84eb8e0b950d2eb21f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _canSlidingColor1: {r: 0, g: 0.5803922, b: 0.7529412, a: 1}
-  _canSlidingColor2: {r: 0.49803922, g: 0, b: 0.65882355, a: 1}
 --- !u!114 &217682968
 MonoBehaviour:
   m_ObjectHideFlags: 0
