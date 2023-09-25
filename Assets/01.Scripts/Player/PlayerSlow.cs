@@ -29,6 +29,11 @@ public class PlayerSlow : PlayerComponentBase
     private float _gauge;
     private float _originScale;
 
+    public event Action<float> OnGaugeChanged;
+
+    public event Action OnGaugeAchieveMax;
+    public event Action OnStartSlow;
+
     private Vignette _vignette;
     private MotionBlur _motionBlur;
     private ColorAdjustments _colorAdjustments;
@@ -82,14 +87,20 @@ public class PlayerSlow : PlayerComponentBase
         }
         else
         {
-            if(_gauge > 1f)
+            if(_gauge >= 1f)
             {
                 _gauge = 1f;
                 return;
             }
 
             _gauge += Time.unscaledDeltaTime * 1/_slowChargeDuration;
+            
+            if(_gauge >= 1f)
+                OnGaugeAchieveMax?.Invoke();
+                
         }
+        
+        OnGaugeChanged?.Invoke(_gauge);
     }
 
     private void StartSlow()
@@ -98,6 +109,8 @@ public class PlayerSlow : PlayerComponentBase
         
         // TimeScale을 Smooth하게 만들자
         _originScale = Time.timeScale;
+        
+        OnStartSlow?.Invoke();
         
         ChangeTimeScale(_timeScale);
         
