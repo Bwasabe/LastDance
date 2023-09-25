@@ -519,7 +519,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -30}
-  m_SizeDelta: {x: 120, y: 3}
+  m_SizeDelta: {x: 120, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &368847648
 MonoBehaviour:
@@ -534,7 +534,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 0, g: 0.1254902, b: 0.29411766, a: 1}
-  m_EffectDistance: {x: 1, y: -1}
+  m_EffectDistance: {x: 0.5, y: -0.5}
   m_UseGraphicAlpha: 1
 --- !u!114 &368847649
 MonoBehaviour:
@@ -1254,8 +1254,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -15, y: 25}
-  m_SizeDelta: {x: 5, y: 5}
+  m_AnchoredPosition: {x: -30, y: 0}
+  m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &569241492
 MonoBehaviour:
@@ -1566,7 +1566,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0149ff21291d29a428b9c146a18bc7c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hitStopDuration: 0.1
+  _hitStopDuration: 0.05
 --- !u!1 &727794853
 GameObject:
   m_ObjectHideFlags: 0
@@ -18295,8 +18295,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 15, y: 25}
-  m_SizeDelta: {x: 5, y: 5}
+  m_AnchoredPosition: {x: 30, y: 0}
+  m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1761730183
 MonoBehaviour:
