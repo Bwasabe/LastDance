@@ -72,7 +72,7 @@ public class PlayerDash : PlayerComponentBase
     private float _originBlurIntensity;
     private float _originChromaticIntensity;
     private int _currentDashCount1;
-
+    
     protected override void Start()
     {
         base.Start();
@@ -92,6 +92,7 @@ public class PlayerDash : PlayerComponentBase
         _camFOV = _vCam.m_Lens.FieldOfView;
         // _camFOV = 70;
     }
+    
 
     private void Update()
     {

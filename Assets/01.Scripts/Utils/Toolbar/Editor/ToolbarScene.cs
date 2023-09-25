@@ -1,7 +1,9 @@
+#if UNITY_EDITOR
 using System.Linq;
 using System;
 using UnityEditor;
 using UnityEditor.SceneManagement;
+
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityToolbarExtender;
@@ -86,3 +88,4 @@ public class ToolbarScene
     }
 
 }
+#endif

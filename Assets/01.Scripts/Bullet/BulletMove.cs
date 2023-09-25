@@ -8,6 +8,15 @@ public class BulletMove : MonoBehaviour
     [SerializeField]
     private float moveSpeed = 20f;
 
+    private void OnEnable()
+    {
+        IEnumerator Task()
+        {
+            yield return Yields.WaitForSeconds(5f);
+            PoolManager.Destroy(gameObject);
+        }
+    }
+
     private void Update()
     {
         transform.Translate( moveSpeed * Time.deltaTime * Vector3.left);

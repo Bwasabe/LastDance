@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public class UGTurretIdleState : UGTurretBasicState
 {
@@ -27,29 +29,31 @@ public class UGTurretIdleState : UGTurretBasicState
     {
         Vector3 interV = Define.Player.transform.position - turret.transform.position;
 
-        // target°ú ³ª »çÀÌÀÇ °Å¸®°¡ radius º¸´Ù ÀÛ´Ù¸é
+        // targetï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ï¿½ï¿½ radius ï¿½ï¿½ï¿½ï¿½ ï¿½Û´Ù¸ï¿½
         if (interV.magnitude <= turret.Radius)
         {
-            // 'Å¸°Ù-³ª º¤ÅÍ'¿Í '³» Á¤¸é º¤ÅÍ'¸¦ ³»Àû
+            // 'Å¸ï¿½ï¿½-ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½'ï¿½ï¿½ 'ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½'ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             float dot = Vector3.Dot(interV.normalized, turret.transform.forward);
-            // µÎ º¤ÅÍ ¸ðµÎ ´ÜÀ§ º¤ÅÍÀÌ¹Ç·Î ³»Àû °á°ú¿¡ cosÀÇ ¿ªÀ» ÃëÇØ¼­ theta¸¦ ±¸ÇÔ
+            // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ cosï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ thetaï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             float theta = Mathf.Acos(dot);
-            // angleRange¿Í ºñ±³ÇÏ±â À§ÇØ degree·Î º¯È¯
+            // angleRangeï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ degreeï¿½ï¿½ ï¿½ï¿½È¯
             float degree = Mathf.Rad2Deg * theta;
 
-            // ½Ã¾ß°¢ ÆÇº°
+            // ï¿½Ã¾ß°ï¿½ ï¿½Çºï¿½
             if (degree <= turret.AngleRange / 2f)
                 stateMachine.ChangeState(stateMachine.SearchState);
         }
     }
+#if UNITY_EDITOR
 
     public override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
 
         Handles.color = _red;
-        // DrawSolidArc(½ÃÀÛÁ¡, ³ë¸Öº¤ÅÍ(¹ý¼±º¤ÅÍ), ±×·ÁÁÙ ¹æÇâ º¤ÅÍ, °¢µµ, ¹ÝÁö¸§)
+        // DrawSolidArc(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Öºï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½), ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
         Handles.DrawSolidArc(turret.transform.position, Vector3.up, turret.transform.forward, turret.AngleRange / 2, turret.Radius);
         Handles.DrawSolidArc(turret.transform.position, Vector3.up, turret.transform.forward, -turret.AngleRange / 2, turret.Radius);
     }
+    #endif
 }
