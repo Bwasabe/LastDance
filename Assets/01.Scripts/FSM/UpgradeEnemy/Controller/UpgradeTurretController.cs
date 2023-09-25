@@ -11,6 +11,8 @@ public class UpgradeTurretController : MonoBehaviour
     [field: SerializeField]
     public Transform Head { get; private set; }
     [field: SerializeField]
+    public Transform TargetPos { get; private set; }
+    [field: SerializeField]
     public Transform BulletPos { get; private set; }
     [field: SerializeField]
     public ParticleSystem MuzzleFlash { get; private set; }

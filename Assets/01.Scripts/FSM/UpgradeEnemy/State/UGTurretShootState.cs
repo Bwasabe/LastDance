@@ -24,8 +24,13 @@ public class UGTurretShootState : UGTurretBasicState
 
     private void LookAtPlayer()
     {
-        Vector3 l_vector = Define.Player.transform.position - stateMachine.Turret.transform.position;
+        Vector3 l_vector = turret.TargetPos.transform.position - stateMachine.Turret.transform.position;
         Quaternion targetRotation = Quaternion.LookRotation(l_vector, Vector3.up) * Quaternion.Euler(-90, 0, 0);
+
+        Vector3 angle = targetRotation.eulerAngles;
+        angle.y -= stateMachine.Turret.transform.localRotation.eulerAngles.y;
+
+        targetRotation.eulerAngles = angle;
 
         stateMachine.Turret.Head.transform.localRotation = Quaternion.Slerp(stateMachine.Turret.Head.transform.localRotation, targetRotation, 5 * Time.deltaTime); Quaternion.Euler(-90, 0, 0);
     }
@@ -34,7 +39,7 @@ public class UGTurretShootState : UGTurretBasicState
     {
         yield return new WaitForSeconds(turret.WaitTime);
 
-        Vector3 l_vector = (Define.Player.transform.position - stateMachine.Turret.transform.position).normalized;
+        Vector3 l_vector = (turret.TargetPos.transform.position - stateMachine.Turret.transform.position).normalized;
         Quaternion targetRotation = Quaternion.LookRotation(l_vector, Vector3.up) * Quaternion.Euler(-90, 0, 0);
 
         turret.MuzzleFlash.Play();
