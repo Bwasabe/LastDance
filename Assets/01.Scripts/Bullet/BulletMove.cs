@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,17 @@ public class BulletMove : MonoBehaviour
 
     private void Update()
     {
-        transform.Translate(Vector3.left * moveSpeed * Time.deltaTime);
+        transform.Translate( moveSpeed * Time.deltaTime * Vector3.left);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(!other.CompareTag("Player")) return;
+        
+        PlayerDead playerDead = other.GetComponent<PlayerDead>();
+
+        if(playerDead is null) return;
+        
+        playerDead.Hit();
     }
 }

@@ -6,9 +6,9 @@ public class AttackCheck : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Enemy"))
-        {
-            other.GetComponentInParent<UpgradeTurretController>().ChangeDeathState();
-        }
+        // if(other.CompareTag("Enemy"))
+        // {
+        //     other.GetComponentInParent<UpgradeTurretController>().ChangeDeathState();
+        // }
     }
 }

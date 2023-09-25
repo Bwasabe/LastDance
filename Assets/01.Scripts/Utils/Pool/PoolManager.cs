@@ -25,14 +25,17 @@ public static class PoolManager
     /// <param name="parent">부모</param>
     /// <typeparam name="T">컴포넌트 타입</typeparam>
     /// <returns>풀링된 오브젝트</returns>
-    public static T Get<T>(T prefab, Transform parent = null) where T : Object
+    public static T Instantiate<T>(T prefab, Transform parent = null) where T : Object
     {
-        var pool = Pool<T>.Instance;
-        var obj = pool.Get(prefab);
-        if (prefab is Component component)
+        Pool<T> pool = Pool<T>.Instance;
+        T obj = pool.Get(prefab);
+        
+        if(obj is Component component)
             component.transform.SetParent(parent, false);
-        if (prefab is GameObject gameObject)
+
+        if(obj is GameObject gameObject)
             gameObject.transform.SetParent(parent, false);
+
         return obj;
     }
 
@@ -41,9 +44,9 @@ public static class PoolManager
     /// </summary>
     /// <param name="obj">반환할 오브젝트</param>
     /// <typeparam name="T">컴포넌트 타입</typeparam>
-    public static void Release<T>(T obj) where T : Object
+    public static void Destroy<T>(T obj) where T : Object
     {
-        var pool = Pool<T>.Instance;
+        Pool<T> pool = Pool<T>.Instance;
         pool.Release(obj);
     }
 
@@ -59,30 +62,33 @@ public static class PoolManager
             Debug.Log("PoolManager Initialized" + typeof(T));
         }
 
-        public static Pool<T> Instance { get; } = new();
+        public static Pool<T> Instance{ get; } = new();
 
         public T Get(T prefab)
         {
-            if (!_stacks.TryGetValue(prefab, out var stack))
+            if(!_stacks.TryGetValue(prefab, out Stack<T> stack))
             {
                 stack = new Stack<T>();
                 _stacks.Add(prefab, stack);
                 _prefabs.Add(prefab, prefab);
             }
 
-            if (stack.Count > 0)
+            if(stack.Count > 0)
             {
-                var obj = stack.Pop();
-                if (obj is Component component)
+                T obj = stack.Pop();
+                if(obj is Component component)
                     component.gameObject.SetActive(true);
-                if (obj is GameObject gameObject)
+
+                if(obj is GameObject gameObject)
                     gameObject.SetActive(true);
+
                 return obj;
             }
             else
             {
-                var obj = Object.Instantiate(prefab);
+                T obj = Object.Instantiate(prefab);
                 _prefabs.Add(obj, prefab);
+
                 return obj;
             }
         }
@@ -91,14 +97,15 @@ public static class PoolManager
         {
             GameObject gameObject = null;
 
-            if (obj is GameObject @object)
+            if(obj is GameObject @object)
                 gameObject = @object;
-            else if (obj is Component component)
+            else if(obj is Component component)
                 gameObject = component.gameObject;
 
-            if (!_prefabs.TryGetValue(obj, out var prefab))
+            if(!_prefabs.TryGetValue(obj, out T prefab))
             {
                 Object.Destroy(gameObject);
+
                 return;
             }
 
@@ -108,17 +115,19 @@ public static class PoolManager
 
         private void Clear()
         {
-            foreach (var obj in _stacks.Values.SelectMany(stack => stack))
+            foreach (T obj in _stacks.Values.SelectMany(stack => stack))
             {
                 GameObject gameObject = null;
 
-                if (obj is GameObject @object)
+                if(obj is GameObject @object)
                     gameObject = @object;
-                else if (obj is Component component)
+                else if(obj is Component component)
                     gameObject = component.gameObject;
 
                 Object.Destroy(gameObject);
-            };
+            }
+
+            ;
 
             _stacks.Clear();
             _prefabs.Clear();
