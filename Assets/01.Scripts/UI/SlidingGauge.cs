@@ -37,7 +37,10 @@ public class SlidingGauge : MonoBehaviour
         _canvasGroup = GetComponentInParent<CanvasGroup>();
         _playerSliding = GameManager.Instance.Player.transform.GetComponentCache<PlayerSliding>();
 
-        _material = GetComponent<Image>().material;
+        Image image = GetComponent<Image>();
+        
+        _material = image.material;
+        image.material = _material;
 
         _playerSliding.OnTimerChanged += OnTimerChanged;
 
@@ -49,16 +52,10 @@ public class SlidingGauge : MonoBehaviour
     private void OnSlidingStart()
     {
         _fadeTweener.ChangeEndValue(1f, true).Restart();
-        // _material.SetColor(Color1, _cantSlidingColor1);
-        // _material.SetColor(Color2, _cantSlidingColor2);
-
     }
     private void OnSlidingTimerMax()
     {
         _fadeTweener.ChangeEndValue(0f, true).Restart();
-        //
-        // _material.SetColor(Color1, _canSlidingColor1);
-        // _material.SetColor(Color2, _canSlidingColor2);
     }
     private void OnTimerChanged(float value)
     {
