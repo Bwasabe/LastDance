@@ -14,6 +14,12 @@ public class PlayerSliding : PlayerComponentBase
     private float _impulseForce = 5f;
 
     [SerializeField]
+    private float _fillMultiplier = 0.5f;
+
+    [SerializeField]
+    private float _minimumTimer = 0.2f;
+
+    [SerializeField]
     private float _slidingForce = 70f;
     [SerializeField]
     private float _slopeForce = 1000f;
@@ -23,7 +29,11 @@ public class PlayerSliding : PlayerComponentBase
     private Rigidbody _rb;
     private PlayerGroundController _groundController;
     private PlayerMove _playerMove;
+
+    public event Action<float> OnTimerChanged;
+    public event Action OnSlidingTimerMax;
     
+    public event Action OnSlidingStart;
     
     private float _timer;
     
@@ -36,6 +46,10 @@ public class PlayerSliding : PlayerComponentBase
         _rb = transform.GetComponentCache<Rigidbody>();
         _playerMove = transform.GetComponentCache<PlayerMove>();
         _groundController = transform.GetComponentCache<PlayerGroundController>();
+
+        _timer = _slidingDuration;
+        OnTimerChanged?.Invoke(_timer / _slidingDuration);
+        OnSlidingTimerMax?.Invoke();
     }
 
     private void Update()
@@ -48,13 +62,28 @@ public class PlayerSliding : PlayerComponentBase
         if(_playerStateController.HasState(Player_State.Sliding))
         {
             // Shift를 때거나, timer가 다 되면서 Slope가 아니거나, 땅에서 떨어진 경우
-            if(Input.GetKeyUp(KeyCode.LeftShift) || _timer >= _slidingDuration && !_groundController.IsOnSlope || !_groundController.IsGround)
+            if(Input.GetKeyUp(KeyCode.LeftShift) || _timer <= 0f && !_groundController.IsOnSlope || !_groundController.IsGround)
             {
                 EndSliding();
             }
 
-            _timer += Time.deltaTime;
+            _timer -= Time.deltaTime;
+            
         }
+        else
+        {
+            if(_timer >= _slidingDuration) return;
+
+            _timer += Time.deltaTime * _fillMultiplier;
+
+            if(_timer >= _slidingDuration)
+            {
+                _timer = _slidingDuration;
+                
+                OnSlidingTimerMax?.Invoke();
+            }
+        }
+        OnTimerChanged?.Invoke(_timer / _slidingDuration);
     }
 
     private void FixedUpdate()
@@ -69,7 +98,7 @@ public class PlayerSliding : PlayerComponentBase
             }
             else
             {
-                _rb.AddForce(_slidingCurve.Evaluate(_timer / _slidingDuration) * _slidingForce * _playerMove.MoveDir, ForceMode.Force);
+                _rb.AddForce(_slidingCurve.Evaluate(1 - _timer / _slidingDuration) * _slidingForce * _playerMove.MoveDir, ForceMode.Force);
             }
         }
     }
@@ -77,17 +106,21 @@ public class PlayerSliding : PlayerComponentBase
 
     private void StartSliding()
     {
+        OnSlidingStart?.Invoke();
+        
         _gravity = _rb.velocity.y;
 
         _rb.AddForce(_playerMove.MoveDir * _impulseForce, ForceMode.Impulse);
         _playerMove.IsFreeze = true;
-        _timer = 0f;
         
         _playerStateController.AddState(Player_State.Sliding);
     }
 
     private void EndSliding()
     {
+        // OnCantSliding?.Invoke();
+        
+        
         _playerMove.IsFreeze = false;
         
         if(!_playerStateController.HasState(Player_State.Jump))

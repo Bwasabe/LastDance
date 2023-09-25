@@ -4,8 +4,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoSingletonWithoutDontDestroy<GameManager>
 {
+    public PlayerStateController Player{
+        get {
+            if(_player == null) _player = FindObjectOfType<PlayerStateController>();
+
+            return _player;
+        }
+    }
+
+    private PlayerStateController _player;
+    
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.R))

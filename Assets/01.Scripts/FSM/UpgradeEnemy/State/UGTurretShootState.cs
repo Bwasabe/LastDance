@@ -38,7 +38,7 @@ public class UGTurretShootState : UGTurretBasicState
         Quaternion targetRotation = Quaternion.LookRotation(l_vector, Vector3.up) * Quaternion.Euler(-90, 0, 0);
 
         turret.MuzzleFlash.Play();
-        turret.SpawnBullet(turret.BulletPos.position, Quaternion.Euler(0f, targetRotation.eulerAngles.y - 90f, Quaternion.LookRotation(l_vector, Vector3.up).eulerAngles.x));
+        turret.SpawnBullet(turret.BulletPos.position, Quaternion.Euler(0f, targetRotation.eulerAngles.y + 90f, Quaternion.LookRotation(l_vector, Vector3.up).eulerAngles.x));
 
         turret.StartCoroutine(Shoot());
     }

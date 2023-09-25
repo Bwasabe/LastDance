@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3558030587757954528}
   - component: {fileID: 1692186055668090205}
   - component: {fileID: 1965308033004553360}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Spot Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,7 +129,7 @@ GameObject:
   - component: {fileID: 8475223770096702267}
   - component: {fileID: 1298459420178980847}
   - component: {fileID: 155035243010234081}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MuzzleAddNarrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5036,7 +5036,7 @@ GameObject:
   - component: {fileID: 374910601623056408}
   - component: {fileID: 4209402059783709724}
   - component: {fileID: 3720943702654684842}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MuzzleNarrowVertical
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9943,7 +9943,7 @@ GameObject:
   - component: {fileID: 4371041675326909205}
   - component: {fileID: 1637600919724872258}
   - component: {fileID: 4440616907801309886}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14947,7 +14947,7 @@ GameObject:
   - component: {fileID: 3981180589478954000}
   - component: {fileID: 4420642041180412535}
   - component: {fileID: 3727982291361511525}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: VFX_M4 Muzzle Flash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19851,7 +19851,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1704255804224126871}
   - component: {fileID: 514175016219742463}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: UGTurret
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -19872,7 +19872,7 @@ Transform:
   m_Children:
   - {fileID: 1679119010909285421}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &514175016219742463
 MonoBehaviour:
@@ -19890,7 +19890,7 @@ MonoBehaviour:
   <Head>k__BackingField: {fileID: 5625617912629512137}
   <BulletPos>k__BackingField: {fileID: 1041830990308982031}
   <MuzzleFlash>k__BackingField: {fileID: 4420642041180412535}
-  <bullet>k__BackingField: {fileID: 6556287815709753577, guid: a74e3feaa141e2f4ba167a59aa163a9b, type: 3}
+  <bullet>k__BackingField: {fileID: 3942608831921008351, guid: a74e3feaa141e2f4ba167a59aa163a9b, type: 3}
   <AngleRange>k__BackingField: 100
   <Radius>k__BackingField: 10
   <WaitTime>k__BackingField: 2
@@ -20013,7 +20013,7 @@ GameObject:
   - component: {fileID: 2775255116024828031}
   - component: {fileID: 1086643646726273288}
   - component: {fileID: 2495003482544523424}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Head
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -20148,7 +20148,7 @@ GameObject:
   - component: {fileID: 7328114578183960704}
   - component: {fileID: 362449358484407021}
   - component: {fileID: 6777327591510462906}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25048,7 +25048,7 @@ GameObject:
   - component: {fileID: 1201443839033449120}
   - component: {fileID: 6587659667446772852}
   - component: {fileID: 8549066517754278321}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SensorMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25271,7 +25271,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1041830990308982031}
   - component: {fileID: 6261906544104605055}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BulletPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25318,7 +25318,7 @@ GameObject:
   - component: {fileID: 2645323560862236085}
   - component: {fileID: 1759957009926697138}
   - component: {fileID: 3665370578203537455}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25639,7 +25639,7 @@ GameObject:
   - component: {fileID: 683107487599650379}
   - component: {fileID: 3923457920385817476}
   - component: {fileID: 7916515896229439257}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MuzzleBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30537,7 +30537,7 @@ GameObject:
   - component: {fileID: 2526246882343406238}
   - component: {fileID: 9180143468901894653}
   - component: {fileID: 430483925403590493}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MuzzleBase (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35435,7 +35435,7 @@ GameObject:
   - component: {fileID: 4171152645974269773}
   - component: {fileID: 675772773715280457}
   - component: {fileID: 634713476657668333}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Flash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40331,7 +40331,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1679119010909285421}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Model
   m_TagString: Enemy
   m_Icon: {fileID: 0}

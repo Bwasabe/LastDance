@@ -30,10 +30,10 @@ public static class PoolManager
         Pool<T> pool = Pool<T>.Instance;
         T obj = pool.Get(prefab);
         
-        if(prefab is Component component)
+        if(obj is Component component)
             component.transform.SetParent(parent, false);
 
-        if(prefab is GameObject gameObject)
+        if(obj is GameObject gameObject)
             gameObject.transform.SetParent(parent, false);
 
         return obj;

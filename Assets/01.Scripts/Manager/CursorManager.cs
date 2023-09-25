@@ -16,6 +16,7 @@ public class CursorManager : MonoBehaviour
         Cursor.lockState = _cursorLockMode;
     }
 
+
     [ContextMenu("SetCursorVisible")]
     private void SetCursorVisible()
     {

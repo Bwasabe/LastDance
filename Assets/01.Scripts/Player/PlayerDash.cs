@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
@@ -35,8 +36,16 @@ public class PlayerDash : PlayerComponentBase
     private float _dashTimer;
 
     private float _camFOV;
-        
-    private int _currentDashCount = 0;
+
+    private int _currentDashCount{
+        get {
+            return _currentDashCount1;
+        }
+        set {
+            _currentDashCount1 = value;
+            OnDash?.Invoke(_currentDashCount1);
+        }
+    }
 
     private Vector3 _dashAmount;
 
@@ -49,6 +58,8 @@ public class PlayerDash : PlayerComponentBase
     private PlayerJump _playerJump;
     private PlayerGroundController _groundController;
 
+    public event Action<int> OnDash;
+
     private Vignette _vignette;
     private ChromaticAberration _chromaticAberration;
     private MotionBlur _motionBlur;
@@ -60,7 +71,8 @@ public class PlayerDash : PlayerComponentBase
     private float _originVignetteIntensity;
     private float _originBlurIntensity;
     private float _originChromaticIntensity;
-    
+    private int _currentDashCount1;
+
     protected override void Start()
     {
         base.Start();
